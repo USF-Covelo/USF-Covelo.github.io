@@ -5,7 +5,7 @@ const CONFIG = {
   telefoneLink: "+351225574810",
   email: "usf.covelo@ulssjoao.min-saude.pt",
   // Cole aqui o link do Google Forms (ver instruções). Ao clicar no e-mail abre este formulário.
-  formsUrl: "COLE_AQUI_O_LINK_DO_GOOGLE_FORMS",
+  formsUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdd0mE9YW1XXScdZXlky5ZgLWJHU4BGEmoLNpqNfzEsUyZNjw/viewform?usp=dialog",
   morada: "Rua Faria Guimarães, 915-931, 4200 Porto"
 };
 
