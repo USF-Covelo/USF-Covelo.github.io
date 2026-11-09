@@ -1,0 +1,47 @@
+/* ===== CORES (EDITAR AQUI) ===== */
+:root{--p:#0a6c8c;--pd:#083f52;--acc:#2a9d8f;--bg:#f4f8fa;--card:#fff;--tx:#1b2a32;--soft:#56676f;--bd:#d9e3e8;--aviso:#fff4e0;--aviso-bd:#f0c36d}
+@media(prefers-color-scheme:dark){:root{--p:#4cb5d3;--pd:#0a2f3d;--acc:#4fc3b4;--bg:#0e181d;--card:#16232a;--tx:#e8f0f3;--soft:#9bb0ba;--bd:#27383f;--aviso:#2c2412;--aviso-bd:#8a6a1f}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+a{color:var(--p)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.topbar{background:var(--pd);color:#fff;font-size:.85rem}
+.topbar .wrap{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 20px;padding-top:6px;padding-bottom:6px}
+.topbar a{color:#fff;text-decoration:none}
+header.site{background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:20}
+header.site .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx)}
+.cruz{width:38px;height:38px;border-radius:9px;background:var(--p);position:relative}
+.cruz:before,.cruz:after{content:"";position:absolute;background:#fff;border-radius:2px}
+.cruz:before{left:16px;top:8px;width:6px;height:22px}.cruz:after{left:8px;top:16px;width:22px;height:6px}
+.brand b{display:block;font-size:1.15rem;line-height:1.1}.brand small{color:var(--soft);font-size:.75rem}
+nav.menu{display:flex;flex-wrap:wrap;gap:2px}
+nav.menu a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--tx);font-size:.95rem;font-weight:500}
+nav.menu a:hover{background:var(--bg)}nav.menu a.ativo{background:var(--p);color:#fff}
+.hero{background:linear-gradient(135deg,var(--pd),var(--p));color:#fff;padding:72px 0 80px}
+.hero h1{margin:0 0 10px;font-size:clamp(2.2rem,5vw,3.3rem);letter-spacing:-.5px}
+.hero p{max-width:620px;font-size:1.15rem;margin:0;opacity:.95}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.15);padding:4px 12px;border-radius:99px;font-size:.85rem;margin-bottom:16px}
+.btn{display:inline-block;margin-top:26px;padding:13px 26px;background:#fff;color:var(--pd);border-radius:8px;font-weight:600;text-decoration:none}
+.btn:hover{filter:brightness(.94)}
+.page-title{background:var(--pd);color:#fff;padding:38px 0}.page-title h1{margin:0;font-size:2rem}
+section{padding:44px 0 4px}
+h2{color:var(--p);font-size:1.6rem;margin:0 0 6px}.sub{color:var(--soft);margin:0 0 22px}
+h3{margin:0 0 8px;font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;align-items:start}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:22px;border-top:4px solid var(--acc)}
+.card p,.card li{color:var(--soft);margin:0 0 10px}.card ul{padding-left:20px;margin:0}
+details{margin-top:10px}summary{cursor:pointer;color:var(--p);font-weight:600}
+details p{margin-top:10px}
+.aviso{background:var(--aviso);border:1px solid var(--aviso-bd);border-left:6px solid var(--aviso-bd);border-radius:12px;padding:22px;margin-top:-36px;position:relative}
+.aviso h2{color:var(--tx);font-size:1.3rem}.aviso p{margin:4px 0}
+.aviso .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:10px}
+.nota{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:22px}
+.team-h{margin:26px 0 12px;color:var(--p)}
+.membro{padding:5px 0;border-bottom:1px solid var(--bd);color:var(--soft)}.membro:last-child{border:0}
+.membro b{color:var(--tx);font-weight:600}
+table{width:100%;border-collapse:collapse}td{padding:8px 0;border-bottom:1px solid var(--bd)}td:last-child{text-align:right;color:var(--soft)}
+.mapa{width:100%;height:340px;border:0;border-radius:12px;margin-top:18px}
+footer.site{background:var(--pd);color:#fff;margin-top:56px;padding:28px 0;font-size:.9rem}
+footer.site a{color:#fff}footer.site .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+main{padding-bottom:10px}
