@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>O Meu Perfil · USF Covelo</title><link rel="stylesheet" href="style.css"></head><body data-pagina="perfil">
+<div id="cabecalho"></div>
+<div class="page-title"><div class="wrap"><h1>O Meu Perfil</h1></div></div>
+<main class="wrap"><section>
+  <div class="card form-card largo">
+    <div id="msg-perfil" class="msg" hidden role="alert"></div>
+    <p id="perfil-carregar" class="sub">A carregar os seus dados…</p>
+
+    <div id="perfil-conteudo" hidden>
+      <div class="perfil-topo">
+        <div>
+          <h2 id="perfil-nome"></h2>
+          <p class="sub">N.º de utente: <b id="perfil-utente"></b> · <span id="perfil-email"></span></p>
+        </div>
+        <button type="button" id="btn-sair" class="btn-sec">Terminar sessão</button>
+      </div>
+
+      <form id="form-perfil" class="form" novalidate>
+        <fieldset><legend>Os meus dados</legend>
+          <label>Nome completo
+            <input name="nomeCompleto" autocomplete="name"></label>
+          <div class="duas">
+            <label>Telemóvel
+              <input name="telemovel" type="tel" autocomplete="tel"></label>
+            <label>NIF <small>(opcional)</small>
+              <input name="nif" inputmode="numeric" maxlength="9"></label>
+          </div>
+          <label>Morada
+            <input name="morada" autocomplete="street-address"></label>
+          <div class="duas">
+            <label>Código postal
+              <input name="codigoPostal" autocomplete="postal-code" maxlength="8"></label>
+            <label>Localidade
+              <input name="localidade" autocomplete="address-level2"></label>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn-p">Guardar alterações</button>
+        <p class="links" style="font-size:.85rem">Para alterar o e-mail ou o n.º de utente, contacte o secretariado da USF.</p>
+      </form>
+    </div>
+  </div>
+</section></main>
+<div id="rodape"></div>
+<script src="site.js"></script></body></html>

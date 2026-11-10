@@ -30,8 +30,14 @@ document.getElementById("cabecalho").innerHTML = `
 </div></div>
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html"><span class="cruz"></span><span><b>${CONFIG.nome}</b><small>Unidade de Saúde Familiar · Porto</small></span></a>
-  <nav class="menu">${links}</nav>
+  <nav class="menu">${links}<a href="entrar.html" id="conta-link" class="conta-btn">Entrar</a></nav>
 </div></header>`;
+
+/* Carrega a área de conta (autenticação). Ver conta.js */
+const scriptConta = document.createElement("script");
+scriptConta.type = "module";
+scriptConta.src = "conta.js";
+document.body.appendChild(scriptConta);
 
 document.getElementById("rodape").innerHTML = `
 <footer class="site"><div class="wrap">
