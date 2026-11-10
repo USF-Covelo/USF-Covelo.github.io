@@ -44,7 +44,7 @@ document.getElementById("cabecalho").innerHTML = `
 </div></div>
 <header class="site"><div class="wrap">
   <a class="brand" href="index.html">
-    <img src="img/logo-usf-covelo.png" alt="Logótipo da USF Covelo" width="52" height="46">
+    <img src="logo-usf-covelo.png" alt="Logótipo da USF Covelo" width="52" height="46">
     <span><b>${CONFIG.nome}</b><small>Unidade de Saúde Familiar · Porto</small></span>
   </a>
   <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">${ICO.menu} Menu</button>
@@ -67,12 +67,12 @@ document.body.appendChild(scriptConta);
 
 document.getElementById("rodape").innerHTML = `
 <div class="parceiros"><div class="wrap">
-  <img src="img/logos-institucionais.png" alt="USF Covelo · ULS São João · Cuidados de Saúde Primários · República Portuguesa – Saúde · SNS – Serviço Nacional de Saúde">
+  <img src="logos-institucionais.png" alt="USF Covelo · ULS São João · Cuidados de Saúde Primários · República Portuguesa – Saúde · SNS – Serviço Nacional de Saúde">
 </div></div>
 <footer class="site"><div class="wrap">
   <div class="rod-grid">
     <div class="rod-marca">
-      <img src="img/logo-usf-covelo.png" alt="">
+      <img src="logo-usf-covelo.png" alt="">
       <div><b>${CONFIG.nome}</b>Unidade de Saúde Familiar da ULS São João, ao serviço da comunidade do Porto.</div>
     </div>
     <div>

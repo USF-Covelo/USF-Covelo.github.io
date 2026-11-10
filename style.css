@@ -28,8 +28,8 @@
   color-scheme:light;
 }
 
-@font-face{font-family:"Lora";src:url(fonts/lora.woff) format("woff");font-weight:400 700;font-style:normal;font-display:swap}
-@font-face{font-family:"Lora";src:url(fonts/lora-italic.woff) format("woff");font-weight:400 700;font-style:italic;font-display:swap}
+@font-face{font-family:"Lora";src:url(lora.woff) format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Lora";src:url(lora-italic.woff) format("woff");font-weight:400 700;font-style:italic;font-display:swap}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:96px}
