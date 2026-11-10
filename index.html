@@ -5,41 +5,27 @@
 <link rel="icon" href="favicon.png"><link rel="stylesheet" href="style.css"></head><body>
 <div id="cabecalho"></div>
 
-<div class="hero"><div class="wrap">
-  <h1 class="so-leitores">USF Covelo</h1>
-  <!-- EDITAR: coloque a fotografia do edifício no repositório com o nome edificio-usf-covelo.jpg
-       (ou escreva outro nome em data-foto). Enquanto não existir, aparece um espaço reservado. -->
-  <figure class="foto-edificio" data-foto="edificio-usf-covelo.jpg">
-    <div class="sem-foto" aria-hidden="true">
-      <img data-logo alt="">
-      <span>Fotografia do edifício</span>
-    </div>
-    <figcaption>
-      <b>USF Covelo</b>
-      <span>Rua Faria Guimarães, 915-931 · Porto</span>
-    </figcaption>
-  </figure>
+<h1 class="so-leitores">USF Covelo – Unidade de Saúde Familiar</h1>
+<!-- EDITAR: coloque a fotografia do edifício no repositório com o nome edificio-usf-covelo.jpg
+     (ou escreva outro nome em data-foto). Enquanto não existir, aparece um fundo verde com o logótipo. -->
+<div class="capa" data-foto="edificio-usf-covelo.jpg">
+  <div class="sem-foto" aria-hidden="true"><img data-logo alt=""></div>
+  <div class="wrap"><div class="capa-legenda"><b>USF Covelo</b><span>Rua Faria Guimarães, 915-931 · Porto</span></div></div>
+</div>
 
-  <aside class="hero-card">
-    <h3>Precisa de marcar uma consulta?</h3>
-    <div class="linha">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
-      <div><b>Por telefone</b><a href="tel:+351225574810">22 557 4810</a></div>
-    </div>
-    <div class="linha">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-      <div><b>Por e-mail</b><span>Preencha o <a data-forms href="#" style="font-size:inherit">formulário de marcação</a></span></div>
-    </div>
-    <div class="linha">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      <div><b>Horário</b><span>Segunda a sexta, 08h00 – 20h00</span></div>
-    </div>
-    <a class="ver-mais" href="#consultas">Ver as consultas que oferecemos ↓</a>
-  </aside>
-</div></div>
+<div class="wrap">
+  <nav class="acesso" aria-label="Acesso rápido">
+    <a href="#marcar"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>Marcar consulta</span></a>
+    <a href="funcionamento.html"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Horário</span></a>
+    <a href="#consultas"><svg class="ico" viewBox="0 0 24 24"><path d="M9 4h6v4h4v6h-4v6H9v-6H5V8h4z"/></svg><span>O que oferecemos</span></a>
+    <a href="quem-somos.html"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M15 14.5a4.5 4.5 0 0 1 6 4.3V20"/></svg><span>Conheça a equipa</span></a>
+    <a href="entrar.html"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Área pessoal</span></a>
+    <a href="contactos.html"><svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>Contactos</span></a>
+  </nav>
+</div>
 
 <main class="wrap">
-<div class="aviso">
+<div class="aviso" id="fechados">
   <h2>Quando estamos fechados</h2>
   <p>Onde pode ser atendido numa situação aguda, fora do horário da USF Covelo:</p>
   <div class="cols">
@@ -229,14 +215,36 @@
   </div>
 </section>
 
-<section>
+<section id="marcar">
   <h2>Como se marca uma consulta</h2>
-  <p class="sub">Qualquer uma das consultas pode ser marcada de duas formas.</p>
+  <p class="sub">Pode marcar por telefone, pelo formulário online ou diretamente no secretariado.</p>
+  <div class="formas">
+    <a class="forma" href="tel:+351225574810"><svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><b>Por telefone</b>22 557 4810</span></a>
+    <a class="forma" data-forms href="#"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span><b>Por e-mail</b>Formulário de marcação</span></a>
+    <div class="forma"><svg class="ico" viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/></svg><span><b>Presencialmente</b>No secretariado clínico</span></div>
+  </div>
+  <p class="sub" style="margin-top:30px">A marcação pode ser feita por iniciativa sua ou do seu médico:</p>
   <div class="agendar">
     <div class="card"><div class="num">1.</div><h3>Por sua iniciativa</h3>
       <p>Sempre que achar que precisa de uma nova consulta, ou queira antecipar uma que já tem marcada. Ligue para o <a href="tel:+351225574810">22 557 4810</a>, use o <a data-forms href="#">formulário por e-mail</a> ou dirija-se ao secretariado.</p></div>
     <div class="card"><div class="num">2.</div><h3>Por iniciativa do médico</h3>
       <p>Se tem problemas de saúde crónicos, no fim de cada consulta o seu médico entrega-lhe um documento com a data e a hora da próxima.</p></div>
+  </div>
+</section>
+
+<section id="onde">
+  <div class="onde">
+    <div class="card">
+      <h3>Onde estamos</h3>
+      <p>Rua Faria Guimarães, 915-931<br>4200 Porto</p>
+      <p><a href="contactos.html">Ver no mapa →</a></p>
+    </div>
+    <div class="card">
+      <h3>Horário de funcionamento</h3>
+      <table><tr><td>Segunda a sexta</td><td>08h00 – 20h00</td></tr>
+      <tr><td>Sábados, domingos e feriados</td><td>Encerrado</td></tr></table>
+      <p style="margin-top:12px"><a href="#fechados">Onde ser atendido quando estamos fechados →</a></p>
+    </div>
   </div>
 </section>
 </main>
