@@ -46,7 +46,7 @@ document.getElementById("cabecalho").innerHTML = `
   <span class="so-largo">${ICO.relogio} ${CONFIG.horario}</span>
   <div class="grupo">
     <a href="tel:${CONFIG.telefoneLink}">${ICO.tel} ${CONFIG.telefone}</a>
-    <a class="so-largo" href="${CONFIG.formsUrl}" target="_blank" rel="noopener">${ICO.mail} ${CONFIG.email}</a>
+    <a class="so-largo" href="mailto:${CONFIG.email}">${ICO.mail} ${CONFIG.email}</a>
   </div>
 </div></div>
 <header class="site"><div class="wrap">
@@ -73,9 +73,6 @@ scriptConta.src = "conta.js";
 document.body.appendChild(scriptConta);
 
 document.getElementById("rodape").innerHTML = `
-<div class="parceiros"><div class="wrap">
-  <img src="${IMG.parceiros}" alt="USF Covelo · ULS São João · Cuidados de Saúde Primários · República Portuguesa – Saúde · SNS – Serviço Nacional de Saúde">
-</div></div>
 <footer class="site"><div class="wrap">
   <div class="rod-grid">
     <div class="rod-marca">
@@ -85,7 +82,7 @@ document.getElementById("rodape").innerHTML = `
     <div>
       <h4>Contactos</h4>
       <p class="rod-linha">${ICO.tel}<a href="tel:${CONFIG.telefoneLink}">${CONFIG.telefone}</a></p>
-      <p class="rod-linha">${ICO.mail}<a href="${CONFIG.formsUrl}" target="_blank" rel="noopener">Enviar mensagem</a></p>
+      <p class="rod-linha">${ICO.mail}<a href="mailto:${CONFIG.email}">${CONFIG.email}</a></p>
       <p class="rod-linha">${ICO.local}<span>${CONFIG.morada}<br>${CONFIG.codigoPostal}</span></p>
     </div>
     <div>
@@ -102,7 +99,10 @@ document.getElementById("rodape").innerHTML = `
     <span>&copy; ${new Date().getFullYear()} ${CONFIG.nome}</span>
     <span>Emergência: <b>112</b> · SNS 24: <a href="tel:808242424"><b>808 24 24 24</b></a></span>
   </div>
-</div></footer>`;
+</div></footer>
+<div class="parceiros"><div class="wrap">
+  <img src="${IMG.parceiros}" alt="USF Covelo · ULS São João · Cuidados de Saúde Primários · República Portuguesa – Saúde · SNS – Serviço Nacional de Saúde">
+</div></div>`;
 
 /* Liga todos os links de e-mail marcados com data-forms ao Google Forms */
 document.querySelectorAll("a[data-forms]").forEach(a => {
@@ -113,3 +113,17 @@ document.querySelectorAll("a[data-forms]").forEach(a => {
 document.querySelectorAll('link[rel="icon"]').forEach(l => l.remove());
 const fav = document.createElement("link"); fav.rel = "icon"; fav.href = IMG.favicon; document.head.appendChild(fav);
 document.querySelectorAll("img[data-logo]").forEach(i => i.src = IMG.logo);
+
+/* Fotografias (edifício e equipa): usa a foto indicada em data-foto; se não existir, mostra o espaço reservado */
+function iniciais(nome) {
+  const p = nome.trim().split(/\s+/).filter(w => w.length > 1 && !/[.ªº]/.test(w));
+  return p.length ? (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase() : "";
+}
+document.querySelectorAll("[data-foto]").forEach(el => {
+  if (el.classList.contains("foto")) el.textContent = iniciais(el.nextElementSibling ? el.nextElementSibling.textContent : "");
+  const ficheiro = el.dataset.foto;
+  if (!ficheiro) return;
+  const im = new Image();
+  im.onload = () => { el.style.backgroundImage = `url("${ficheiro}")`; el.classList.add("tem-foto"); };
+  im.src = ficheiro;
+});

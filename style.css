@@ -85,23 +85,22 @@ nav.menu a.conta-btn:hover{background:var(--verde);color:#fff}
 .btn.claro:hover{background:#fff;border-color:var(--azul)}
 
 /* ===== Página inicial: destaque ===== */
-.hero{position:relative;overflow:hidden;padding:64px 0 72px;background:
+.hero{position:relative;overflow:hidden;padding:40px 0 64px;background:
   radial-gradient(640px 420px at 90% 20%,rgba(98,185,47,.15),transparent 70%),var(--bg)}
-.hero .wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:center}
+.hero .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:stretch;position:relative}
 .hero .tag{display:inline-block;color:var(--verde);font-weight:600;font-size:.85rem;letter-spacing:.6px;text-transform:uppercase;margin-bottom:14px}
 .hero h1{margin:0 0 16px;font-size:clamp(2.1rem,4.6vw,3.2rem);letter-spacing:-.6px}
 .hero h1 em{font-style:italic;color:var(--verde)}
 .hero p{font-size:1.12rem;color:var(--soft);margin:0;max-width:560px}
 .hero .acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .hero-card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px 26px 22px;box-shadow:var(--sombra);position:relative}
-.hero-card img.marca{position:absolute;right:-18px;top:-34px;width:96px;transform:rotate(6deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.08))}
 .hero-card h3{font-size:1.05rem;margin-bottom:14px}
 .hero-card .linha{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px dashed var(--bd)}
 .hero-card .linha .ico{margin-top:4px;color:var(--verde)}
 .hero-card .linha b{display:block;color:var(--tx);font-weight:600}
 .hero-card .linha span{color:var(--soft);font-size:.93rem}
 .hero-card .linha a{font-weight:600;text-decoration:none;font-size:1.05rem}
-@media(max-width:860px){.hero{padding:40px 0 48px}.hero .wrap{grid-template-columns:1fr;gap:34px}.hero-card img.marca{display:none}}
+@media(max-width:860px){.hero{padding:20px 0 48px}.hero .wrap{grid-template-columns:1fr;gap:20px}}
 
 /* ===== Títulos das outras páginas ===== */
 .page-title{background:var(--bg);padding:46px 0 34px;border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
@@ -182,8 +181,11 @@ details p{margin-top:10px}
 .team-h{margin:38px 0 14px;color:var(--azul);font-size:1.25rem}
 .membro{padding:7px 0;border-bottom:1px solid #f1ede4;color:var(--soft);font-size:.96rem}
 .membro:last-child{border:0}
-.membro b{color:var(--azul);font-weight:600}
-.equipa .membro:first-child{font-size:1.02rem;padding-top:0}
+.membro{display:flex;align-items:center;gap:12px;color:var(--tx)}
+.membro:first-child{padding-top:0}
+.foto{width:44px;height:44px;border-radius:50%;flex:none;background:var(--verde-claro) center/cover no-repeat;color:var(--verde);display:grid;place-items:center;font-size:.8rem;font-weight:700;letter-spacing:.5px;border:2px solid #fff;box-shadow:0 0 0 1px var(--bd)}
+.foto.tem-foto{color:transparent}
+.internos .membro:first-child{padding-top:7px}
 
 /* ===== Tabelas (horário) ===== */
 table{width:100%;border-collapse:collapse}
@@ -194,13 +196,13 @@ tr:last-child td{border-bottom:0}
 .mapa{width:100%;height:360px;border:1px solid var(--bd);border-radius:var(--raio);margin-top:22px}
 
 /* ===== Rodapé ===== */
-.parceiros{background:#fff;border-top:1px solid var(--bd);margin-top:64px;padding:26px 0}
+.parceiros{background:#fff;padding:26px 0 30px}
 .parceiros img{margin:0 auto;width:100%;max-width:860px;height:auto}
-footer.site{background:var(--azul);color:#c9d0e6;padding:44px 0 0;font-size:.93rem;position:relative}
+footer.site{background:var(--azul);color:#c9d0e6;padding:44px 0 0;margin-top:64px;font-size:.93rem;position:relative}
 footer.site:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--verde-vivo),var(--verde) 40%,var(--terra))}
 footer.site a{color:#fff;text-decoration:none}
 footer.site a:hover{text-decoration:underline}
-.rod-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.rod-grid{display:grid;grid-template-columns:1.25fr 1.45fr 1fr .85fr;gap:30px}
 .rod-grid h4{color:#fff;font-family:var(--serif);font-weight:600;font-size:1.05rem;margin:0 0 12px}
 .rod-grid p{margin:0 0 8px}
 .rod-grid ul{list-style:none;padding:0;margin:0}
@@ -244,3 +246,18 @@ footer.site a:hover{text-decoration:underline}
 .perfil-topo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
 .perfil-topo h2{margin-bottom:2px}
 @media(max-width:640px){.topbar .so-largo{display:none}.topbar .wrap{justify-content:center}.brand small{font-size:.72rem}}
+
+/* ===== Fotografia do edifício (página inicial) ===== */
+.so-leitores{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.foto-edificio{margin:0;position:relative;min-height:400px;border-radius:20px;overflow:hidden;background:var(--verde-claro) center/cover no-repeat;box-shadow:var(--sombra);border:1px solid var(--bd)}
+.foto-edificio .sem-foto{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#5b7a4f;font-size:.9rem;padding-bottom:70px;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.35) 0 14px,transparent 14px 28px),linear-gradient(160deg,#eef6e8,#e3eedc)}
+.foto-edificio .sem-foto img{width:110px;opacity:.55}
+.foto-edificio.tem-foto .sem-foto{display:none}
+.foto-edificio figcaption{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,.94);border-radius:12px;padding:10px 16px;box-shadow:0 4px 14px rgba(22,35,94,.12)}
+.foto-edificio figcaption b{display:block;font-family:var(--serif);color:var(--azul);font-size:1.1rem;font-weight:600}
+.foto-edificio figcaption span{color:var(--soft);font-size:.88rem}
+@media(max-width:860px){.foto-edificio{min-height:280px}.foto-edificio .sem-foto img{width:80px}}
+.rod-linha a{overflow-wrap:anywhere}
+.hero-card{display:flex;flex-direction:column}
+.hero-card .ver-mais{margin-top:auto;padding-top:14px;border-top:1px dashed var(--bd);font-weight:600;text-decoration:none}
