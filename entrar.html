@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar · USF Covelo</title><link rel="stylesheet" href="style.css"></head><body data-pagina="entrar">
+<div id="cabecalho"></div>
+<div class="page-title"><div class="wrap"><h1>Entrar</h1></div></div>
+<main class="wrap"><section>
+  <div class="card form-card">
+    <h2>Área pessoal do utente</h2>
+    <p class="sub">Entre com o seu e-mail, número de telemóvel ou número de utente.</p>
+
+    <button type="button" id="btn-cmd" class="btn-cmd">Entrar com Chave Móvel Digital</button>
+    <div id="msg-cmd" class="msg" hidden></div>
+    <div class="separador"><span>ou</span></div>
+
+    <form id="form-entrar" class="form" novalidate>
+      <div id="msg-entrar" class="msg" hidden role="alert"></div>
+      <label>E-mail, telemóvel ou n.º de utente
+        <input name="identificador" autocomplete="username" required></label>
+      <label>Palavra-passe
+        <input name="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit" class="btn-p">Entrar</button>
+      <p class="links"><a href="#" id="link-recuperar">Esqueceu-se da palavra-passe?</a></p>
+    </form>
+    <p class="links">Ainda não tem conta? <a href="registar.html">Criar conta</a></p>
+  </div>
+</section></main>
+<div id="rodape"></div>
+<script src="site.js"></script></body></html>
