@@ -1,114 +1,239 @@
 <!DOCTYPE html>
 <html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Início · USF Covelo</title><link rel="stylesheet" href="style.css"></head><body>
+<title>USF Covelo · Unidade de Saúde Familiar no Porto</title>
+<meta name="description" content="USF Covelo – Unidade de Saúde Familiar no Porto. Consultas, horário, contactos e área pessoal do utente.">
+<link rel="icon" href="img/favicon.png"><link rel="stylesheet" href="style.css"></head><body>
 <div id="cabecalho"></div>
+
 <div class="hero"><div class="wrap">
-  <span class="tag">Cuidados de saúde primários</span>
-  <h1>USF Covelo</h1>
-  <p>Unidade de Saúde Familiar no Porto. </p>
-  <a class="btn" href="contactos.html">Contacte-nos</a>
+  <div>
+    <span class="tag">Cuidados de saúde primários</span>
+    <h1>A sua equipa de família, <em>aqui no Porto.</em></h1>
+    <p>Na USF Covelo, cada utente tem um médico, um enfermeiro e um secretário clínico de família, que o acompanham ao longo da vida.</p>
+    <div class="acoes">
+      <a class="btn" href="#consultas">Ver consultas</a>
+      <a class="btn claro" href="contactos.html">Contacte-nos</a>
+    </div>
+  </div>
+
+  <aside class="hero-card">
+    <img class="marca" src="img/logo-usf-covelo.png" alt="">
+    <h3>Precisa de marcar uma consulta?</h3>
+    <div class="linha">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      <div><b>Por telefone</b><a href="tel:+351225574810">22 557 4810</a></div>
+    </div>
+    <div class="linha">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      <div><b>Por e-mail</b><span>Preencha o <a data-forms href="#" style="font-size:inherit">formulário de marcação</a></span></div>
+    </div>
+    <div class="linha">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div><b>Horário</b><span>Segunda a sexta, 08h00 – 20h00</span></div>
+    </div>
+  </aside>
 </div></div>
 
 <main class="wrap">
 <div class="aviso">
-  <h2>Alternativas Assistenciais</h2>
-  <p>Quando a USF Covelo estiver encerrada, onde pode ser atendido em caso de situação aguda?</p>
+  <h2>Quando estamos fechados</h2>
+  <p>Onde pode ser atendido numa situação aguda, fora do horário da USF Covelo:</p>
   <div class="cols">
     <div><h3>AC Porto Oriental</h3><p>Sábados, domingos e feriados: 9h – 16h45<br>Rua Faria Guimarães, 915-931</p></div>
     <div><h3>Serviços de Urgência</h3><p>Centro Hospitalar de S. João<br>Centro Hospitalar do Porto</p></div>
   </div>
+  <p class="urgente">Antes de sair de casa, pode ligar para o <a href="tel:808242424">SNS 24 (808 24 24 24)</a>. Em caso de emergência, ligue <a href="tel:112">112</a>.</p>
 </div>
 
-<section>
+<section id="consultas">
   <h2>O que oferecemos</h2>
-  <p class="sub">Consultas e serviços disponíveis na nossa unidade. Clique em "Ver mais" para ler os detalhes.</p>
-  <div class="grid">
+  <p class="sub">As nossas consultas estão organizadas por fase da vida. Toque numa consulta para saber a quem se destina e como funciona.</p>
 
-  <div class="card"><h3>Consulta de Saúde Adultos</h3>
-    <p>Para utentes com 19 ou mais anos.</p>
-    <details><summary>Ver mais</summary>
-    <p>Destina-se a uma das seguintes situações:</p>
-    <ul><li>Utente saudável que pretende fazer um exame global de saúde;</li><li>Utente com doença crónica necessitando de reavaliação.</li></ul></details></div>
+  <nav class="atalhos" aria-label="Tipos de consulta">
+    <a href="#criancas">Crianças e jovens</a>
+    <a href="#mulher">Mulher e gravidez</a>
+    <a href="#adultos">Adultos</a>
+    <a href="#no-dia">No próprio dia e em casa</a>
+    <a href="#outros">Atestados</a>
+  </nav>
 
-  <div class="card"><h3>Consulta de Atestado da Carta de Condução</h3>
-    <p>Marcação específica no secretariado clínico.</p>
-    <details><summary>Ver mais</summary>
-    <p>O atestado da carta de condução pode ser passado por qualquer médico no exercício da sua profissão, nos termos do disposto no artº 25º do RHLC.</p>
-    <p>Deve solicitar no secretariado clínico uma consulta específica para o atestado da carta de condução. Na consulta aberta não se passam atestados de carta de condução.</p>
-    <p>Deve fazer-se acompanhar de uma avaliação oftalmológica realizada por um optometrista ou oftalmologista com menos de 6 meses.</p>
-    <p>Adicionalmente, se padecer de uma doença crónica com seguimento a nível hospitalar (epilepsia, doenças reumatológicas, oftalmológicas, etc.) deverá fazer-se acompanhar de um parecer dessa especialidade para poder receber o atestado.</p>
-    <p>Atente que o profissional de saúde se pode recusar a passar o atestado da carta de condução caso estes critérios não sejam cumpridos.</p>
-    <p>Pode consultar mais informação acerca da legislação <a href="#"><!-- EDITAR: colocar aqui o link da legislação -->aqui</a>.</p></details></div>
+  <!-- ===== CRIANÇAS E JOVENS ===== -->
+  <div class="grupo-consultas" id="criancas">
+    <div class="grupo-cab">
+      <div class="icone"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M7 21v-5a5 5 0 0 1 10 0v5M9 21v-3M15 21v-3"/></svg></div>
+      <div><h3>Crianças e jovens</h3><p>Do recém-nascido aos 18 anos.</p></div>
+    </div>
+    <div class="lista-consultas">
+      <details class="consulta">
+        <summary><span class="t"><b>Saúde Infantil e Juvenil</b><small>Avaliação do crescimento e desenvolvimento</small></span></summary>
+        <div class="corpo">
+          <p>As consultas programadas de Saúde Infantil e Juvenil servem para efetuar a avaliação do desenvolvimento global (físico e psicológico) das crianças e dos adolescentes.</p>
+          <p>O seu enfermeiro e o seu médico de família fazem esse acompanhamento a partir da idade de recém-nascido, apoiando os pais e a criança na prevenção da doença e na promoção da saúde. Recomendamos que estas consultas sejam presenciadas pelo pai e/ou pela mãe, ou responsável legal, desde que devidamente identificado.</p>
+          <h4>Em que idades</h4>
+          <p>De acordo com o programa de vigilância da Direção-Geral da Saúde:</p>
+          <div class="etiquetas">
+            <span>Até aos 28 dias (idealmente nos primeiros 10)</span><span>1 mês</span><span>2 meses</span><span>4 meses</span><span>6 meses</span><span>9 meses</span><span>12 meses</span><span>15 meses</span><span>18 meses</span><span>24 meses</span><span>3 anos</span><span>4 anos</span><span>5 anos · exame global</span><span>6 ou 7 anos · exame pré-escolar</span><span>8 anos</span><span>10 anos</span><span>12–13 anos · exame global</span><span>15–18 anos</span>
+          </div>
+          <h4>O que trazer</h4>
+          <ul><li>Boletim de saúde infantil e juvenil</li><li>Boletim de vacinação</li></ul>
+          <p>Cada consulta tem uma observação de enfermagem e uma observação médica, que se complementam. A vacinação deve ser feita, de preferência, no âmbito destas consultas.</p>
+        </div>
+      </details>
+    </div>
+  </div>
 
-  <div class="card"><h3>Consulta de Planeamento Familiar</h3>
-    <p>Aconselhamento, sexualidade saudável, pré-conceção e Saúde da Mulher.</p>
-    <details><summary>Ver mais</summary>
-    <p>As consultas programadas de planeamento familiar servem para realizar o aconselhamento e o esclarecimento de dúvidas relacionadas com a sexualidade saudável ou com doenças sexualmente transmissíveis. Destinam-se a mulheres em idade reprodutiva e aos respetivos companheiros.</p>
-    <p>Idealmente, a primeira consulta de PF deverá ser realizada antes do início da vida sexual, permitindo atempadamente a escolha do método contracetivo mais adequado para cada utente.</p>
-    <p>As consultas de planeamento familiar são efetuadas pelos médico e enfermeiro de família, aquando da primeira consulta, ou apenas pelo enfermeiro de família aquando da segunda, sempre numa atuação complementar.</p>
-    <p>Ainda nesta consulta, e no âmbito da pré-conceção – por decisão do casal – deve ser feito o aconselhamento e a avaliação do seu estado de saúde, a fim de rastrear antecedentes pessoais e familiares e considerar o início de terapêutica para a prevenção de malformações do embrião.</p>
-    <p>As consultas programadas de Saúde da Mulher têm como principais objetivos a realização dos rastreios dos cancros da mama e do colo do útero, o acompanhamento dos problemas relacionados com a menopausa e o controlo de outros problemas de saúde relacionados com o aparelho genital feminino.</p></details></div>
+  <!-- ===== MULHER E GRAVIDEZ ===== -->
+  <div class="grupo-consultas" id="mulher">
+    <div class="grupo-cab">
+      <div class="icone"><svg class="ico" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></div>
+      <div><h3>Mulher, gravidez e família</h3><p>Planeamento familiar, rastreios da mulher e acompanhamento da gravidez.</p></div>
+    </div>
+    <div class="lista-consultas">
+      <details class="consulta">
+        <summary><span class="t"><b>Planeamento Familiar e Saúde da Mulher</b><small>Contraceção, sexualidade saudável e pré-conceção</small></span></summary>
+        <div class="corpo">
+          <p>Servem para aconselhamento e esclarecimento de dúvidas sobre sexualidade saudável e doenças sexualmente transmissíveis. Destinam-se a mulheres em idade reprodutiva e aos respetivos companheiros.</p>
+          <p>Idealmente, a primeira consulta deve ser feita antes do início da vida sexual, para que se possa escolher a tempo o método contracetivo mais adequado.</p>
+          <p>A primeira consulta é feita pelo médico e pelo enfermeiro de família; as seguintes podem ser feitas apenas pelo enfermeiro, sempre de forma complementar.</p>
+          <h4>Pré-conceção</h4>
+          <p>Por decisão do casal, faz-se o aconselhamento e a avaliação do estado de saúde, para rastrear antecedentes pessoais e familiares e considerar o início de terapêutica de prevenção de malformações do embrião.</p>
+          <h4>Saúde da Mulher</h4>
+          <p>Rastreios do cancro da mama e do colo do útero, acompanhamento dos problemas da menopausa e de outros problemas relacionados com o aparelho genital feminino.</p>
+        </div>
+      </details>
 
-  <div class="card"><h3>Consulta de Saúde Materna</h3>
-    <p>Vigilância da gravidez e visita ao recém-nascido e puérpera.</p>
-    <details><summary>Ver mais</summary>
-    <p>As consultas de Saúde Materna têm como objetivo acompanhar a mulher grávida, de forma a garantir o seu bem-estar e o do seu futuro filho.</p>
-    <p>Sempre que uma mulher deseje programar uma gravidez, deve agendar uma "consulta pré-concecional".</p>
-    <p>A primeira consulta de SM deve ser agendada, idealmente, até à 8ª semana após a data da última menstruação. Para facilitar este agendamento, tente marcá-la tão precocemente quanto possível.</p>
-    <p>Se está ou julga estar grávida, telefone (ou envie e-mail) para agendar a sua primeira consulta de vigilância de gravidez, fazendo referência ao facto de estar grávida para que os secretários clínicos possam atribuir a esse agendamento a prioridade necessária.</p>
-    <p>Cada consulta de vigilância de gravidez possui uma componente realizada pelo enfermeiro e outra realizada pelo médico, que se complementam.</p>
-    <p>A ecografia obstétrica do 1º trimestre, a ecografia do 2º trimestre/morfológica e a consulta pré-parto serão efetuadas no Hospital de São João, mediante referenciação do MF na primeira consulta da grávida.</p>
-    <p>As consultas de vigilância da gravidez deverão ser realizadas pelo menos de 6 em 6 semanas, até às 36 semanas, e quinzenalmente daí para a frente. As mulheres grávidas podem e devem fazer-se acompanhar pelos respetivos companheiros ou cônjuges.</p>
-    <p>A vigilância de uma gravidez termina com a "consulta de revisão do puerpério", que deve ter lugar até às 6 semanas após o nascimento do bebé.</p>
-    <p>Deve trazer o boletim de saúde da grávida (todas as consultas), o boletim de planeamento familiar (1ª consulta e consulta de revisão do puerpério) e o boletim de vacinas (1ª consulta e sempre que tiver de ser vacinada durante a gravidez).</p>
-    <p><b>Visita Domiciliária ao Recém-Nascido e Puérpera:</b> é realizada pelo EF e deve ocorrer, idealmente, até ao 15º dia após o nascimento, devendo ser agendada logo que possível, contactando o EF.</p></details></div>
+      <details class="consulta">
+        <summary><span class="t"><b>Saúde Materna</b><small>Vigilância da gravidez e visita ao recém-nascido</small></span></summary>
+        <div class="corpo">
+          <p>Acompanhamos a grávida para garantir o seu bem-estar e o do bebé. Se deseja programar uma gravidez, marque uma <b>consulta pré-concecional</b>.</p>
+          <div class="destaque-nota">Se está ou julga estar grávida, ligue ou envie e-mail a dizer que está grávida — assim o secretariado pode dar prioridade à marcação. A primeira consulta deve ser, idealmente, até à 8.ª semana após a última menstruação.</div>
+          <h4>Como decorre</h4>
+          <ul>
+            <li>Cada consulta tem uma parte de enfermagem e uma parte médica, que se complementam.</li>
+            <li>Consultas pelo menos de 6 em 6 semanas até às 36 semanas e, depois, de 15 em 15 dias.</li>
+            <li>As ecografias do 1.º e 2.º trimestre (morfológica) e a consulta pré-parto são feitas no Hospital de São João, com referenciação do médico de família na primeira consulta.</li>
+            <li>A vigilância termina com a consulta de revisão do puerpério, até 6 semanas após o nascimento.</li>
+          </ul>
+          <p>A grávida pode e deve fazer-se acompanhar pelo companheiro ou cônjuge.</p>
+          <h4>O que trazer</h4>
+          <ul>
+            <li>Boletim de saúde da grávida (em todas as consultas)</li>
+            <li>Boletim de planeamento familiar (1.ª consulta e revisão do puerpério)</li>
+            <li>Boletim de vacinas (1.ª consulta e sempre que precisar de ser vacinada)</li>
+          </ul>
+          <h4>Visita ao recém-nascido e à mãe</h4>
+          <p>Feita pelo enfermeiro de família, idealmente até ao 15.º dia após o nascimento. Contacte o seu enfermeiro de família logo que possível para a agendar.</p>
+        </div>
+      </details>
+    </div>
+  </div>
 
-  <div class="card"><h3>Consulta de Vigilância Oncológica</h3>
-    <p>Rastreios do cancro do colo do útero, da mama e do cólon e reto.</p>
-    <details><summary>Ver mais</summary>
-    <p>Sendo o cancro uma das principais causas de morte em Portugal, torna-se prioritário realizar o seu rastreio.</p>
-    <p>Na mulher, em especial, estão preconizados os rastreios do cancro do colo do útero e da mama. O rastreio do cancro do colo do útero destina-se a mulheres dos 25 aos 65 anos. O rastreio do cancro da mama destina-se a mulheres entre os 50 e os 69 anos.</p>
-    <p>O rastreio do cancro do cólon e reto destina-se a todos os utentes entre os 50 e os 74 anos.</p></details></div>
+  <!-- ===== ADULTOS ===== -->
+  <div class="grupo-consultas" id="adultos">
+    <div class="grupo-cab">
+      <div class="icone"><svg class="ico" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></div>
+      <div><h3>Adultos</h3><p>Vigilância da saúde, doença crónica e rastreios.</p></div>
+    </div>
+    <div class="lista-consultas">
+      <details class="consulta">
+        <summary><span class="t"><b>Saúde de Adultos</b><small>Para utentes com 19 ou mais anos</small></span></summary>
+        <div class="corpo">
+          <p>Destina-se a uma das seguintes situações:</p>
+          <ul><li>Utente saudável que pretende fazer um exame global de saúde;</li><li>Utente com doença crónica que precisa de reavaliação.</li></ul>
+        </div>
+      </details>
 
-  <div class="card"><h3>Consulta de Grupos de Risco</h3>
-    <p>Diabetes e Hipertensão.</p>
-    <details><summary>Ver mais</summary>
-    <p>O enfarte agudo do miocárdio (enfarte do coração) e o acidente vascular cerebral (AVC) são as principais causas de morte em Portugal e no nosso ACeS.</p>
-    <p>Existem fatores que aumentam a probabilidade de vir a sofrer de um enfarte e de um AVC, entre eles a Hipertensão e a Diabetes. Por esse motivo, realizamos o rastreio da Hipertensão nas consultas e existe na USF uma consulta destinada a este grupo de pessoas, onde se faz a monitorização periódica e o acompanhamento do utente.</p></details></div>
+      <details class="consulta">
+        <summary><span class="t"><b>Diabetes e Hipertensão</b><small>Consulta de grupos de risco</small></span></summary>
+        <div class="corpo">
+          <p>O enfarte agudo do miocárdio e o acidente vascular cerebral (AVC) são as principais causas de morte em Portugal e no nosso ACeS.</p>
+          <p>A hipertensão e a diabetes aumentam a probabilidade de os vir a ter. Por isso fazemos o rastreio da hipertensão nas consultas, e existe na USF uma consulta própria para estas pessoas, com monitorização periódica e acompanhamento.</p>
+        </div>
+      </details>
 
-  <div class="card"><h3>Visita Domiciliária</h3>
-    <p>Domicílios de enfermagem e domicílios médicos.</p>
-    <details><summary>Ver mais</summary>
-    <p>Destinada a utentes em situação de incapacidade de se deslocarem à USF, dependentes de terceiros ou em situações de doença aguda, devidamente validadas pelo médico ou enfermeiro de família, com preenchimento de documento próprio da USF para este efeito.</p>
-    <p><b>Domicílios de Enfermagem</b> – Os enfermeiros de família da USF Covelo prestam cuidados de enfermagem no domicílio: observação, acompanhamento/vigilância da situação clínica e/ou realização de outros atos de enfermagem.</p>
-    <p><b>Domicílios Médicos</b> – Os médicos de família da USF Covelo realizam consultas domiciliárias, de forma programada, para observação, vigilância e orientação de doenças crónicas, ou de forma não programada para observação e orientação de estados de doença aguda.</p>
-    <p>Cada médico possui um horário semanal específico para a sua atividade domiciliária programada.</p></details></div>
+      <details class="consulta">
+        <summary><span class="t"><b>Vigilância Oncológica</b><small>Rastreios do cancro</small></span></summary>
+        <div class="corpo">
+          <p>Sendo o cancro uma das principais causas de morte em Portugal, é prioritário fazer o seu rastreio.</p>
+          <table class="mini-tabela">
+            <tr><th>Rastreio</th><th>Para quem</th></tr>
+            <tr><td>Cancro do colo do útero</td><td>Mulheres dos 25 aos 65 anos</td></tr>
+            <tr><td>Cancro da mama</td><td>Mulheres dos 50 aos 69 anos</td></tr>
+            <tr><td>Cancro do cólon e reto</td><td>Todos os utentes dos 50 aos 74 anos</td></tr>
+          </table>
+        </div>
+      </details>
+    </div>
+  </div>
 
-  <div class="card"><h3>Consulta Aberta</h3>
-    <p>Situações agudas, no próprio dia.</p>
-    <details><summary>Ver mais</summary>
-    <p>Parte do horário dos médicos e enfermeiros encontra-se reservado para utentes com situações que necessitem de uma consulta no próprio dia (situações agudas), independentemente do grupo etário ou da situação clínica do utente.</p>
-    <p>Estas consultas servem para atender pessoas de todas as idades com "situação aguda e urgente".</p>
-    <p>Não devem ser usadas: como consulta de vigilância, para mostrar exames de "rotina" (salvo indicação médica em contrário), para solicitar atestados médicos escolares, para a carta de condução e para prática desportiva, assuntos do foro burocrático ou outros semelhantes.</p>
-    <p>Ressalva-se que, só numa situação inicial (1ª vez), a necessidade de documento comprovativo de incapacidade para o trabalho (atestado de doença ou "baixa") constitui um motivo para "consulta urgente".</p>
-    <p>A Consulta Aberta poderá ser marcada para o seu médico ou enfermeiro de família ou para outro profissional da USF Covelo, caso estes não o possam atender.</p>
-    <p>Recomendamos que use o telefone (<a href="tel:+351225574810">22 557 4810</a>) para agendar uma consulta para o próprio dia. Desta forma, apenas terá de chegar à USF 30 minutos antes da hora do agendamento.</p></details></div>
+  <!-- ===== NO PRÓPRIO DIA E EM CASA ===== -->
+  <div class="grupo-consultas" id="no-dia">
+    <div class="grupo-cab">
+      <div class="icone"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M12 12v5M9.5 14.5h5"/></svg></div>
+      <div><h3>No próprio dia e em casa</h3><p>Para situações agudas e para quem não se pode deslocar.</p></div>
+    </div>
+    <div class="lista-consultas">
+      <details class="consulta">
+        <summary><span class="t"><b>Consulta Aberta</b><small>Situações agudas, atendidas no próprio dia</small></span></summary>
+        <div class="corpo">
+          <p>Parte do horário dos médicos e enfermeiros está reservada a utentes que precisam de ser vistos no próprio dia, qualquer que seja a idade ou a situação clínica.</p>
+          <div class="destaque-nota">Ligue para o <a href="tel:+351225574810"><b>22 557 4810</b></a> para marcar para o próprio dia. Assim só precisa de chegar à USF 30 minutos antes da hora marcada.</div>
+          <h4>Não se destina a</h4>
+          <ul>
+            <li>Consultas de vigilância ou mostrar exames de rotina (salvo indicação médica);</li>
+            <li>Atestados escolares, para a carta de condução ou para prática desportiva;</li>
+            <li>Assuntos burocráticos ou semelhantes.</li>
+          </ul>
+          <p>Só na primeira vez é que a necessidade de um certificado de incapacidade para o trabalho ("baixa") justifica uma consulta no próprio dia.</p>
+          <p>Pode ser atendido pelo seu médico ou enfermeiro de família ou, se não estiverem disponíveis, por outro profissional da USF Covelo.</p>
+        </div>
+      </details>
 
-  <div class="card"><h3>Consulta de Saúde Infantil-Juvenil</h3>
-    <p>Avaliação do desenvolvimento de crianças e adolescentes.</p>
-    <details><summary>Ver mais</summary>
-    <p>As consultas programadas de Saúde Infantil e Juvenil servem para efetuar a avaliação do desenvolvimento global (físico e psicológico) das crianças e dos adolescentes.</p>
-    <p>O seu EF e o seu MF fazem esse acompanhamento a partir da idade de recém-nascido, pretendendo apoiar os pais e a criança na prevenção da doença e na promoção da saúde. Neste sentido, recomendamos que estas consultas sejam presenciadas pelo pai e/ou pela mãe, ou responsável legal, desde que devidamente identificado.</p>
-    <p>De acordo com o programa de vigilância proposto pela Direção-Geral da Saúde, estas consultas devem realizar-se nas seguintes idades: nos primeiros 10 dias de vida ou até aos 28 dias de vida; 1 mês; 2 meses; 4 meses; 6 meses; 9 meses; 12 meses; 15 meses; 18 meses; 24 meses; 3 anos; 4 anos; 5 anos (exame global de saúde); 6 ou 7 anos (exame de saúde pré-escolar); 8 anos; 10 anos (ano de início do 2º ciclo do ensino básico); entre os 12 e os 13 anos (exame global de saúde); entre os 15 e os 18 anos.</p>
-    <p>É muito importante que se faça sempre acompanhar do boletim de saúde infantil e juvenil, assim como do boletim de vacinação.</p>
-    <p>Estas consultas são constituídas por uma observação de enfermagem e por uma observação médica, que se complementam.</p>
-    <p>A vacinação deve ser efetuada, preferencialmente, no âmbito destas consultas.</p></details></div>
+      <details class="consulta">
+        <summary><span class="t"><b>Visita Domiciliária</b><small>Consultas médicas e de enfermagem em casa</small></span></summary>
+        <div class="corpo">
+          <p>Para utentes que não se conseguem deslocar à USF, dependentes de terceiros ou em situação de doença aguda, validadas pelo médico ou enfermeiro de família (com preenchimento de um documento próprio da USF).</p>
+          <h4>Domicílios de enfermagem</h4>
+          <p>Observação, acompanhamento e vigilância da situação clínica e outros cuidados de enfermagem em casa.</p>
+          <h4>Domicílios médicos</h4>
+          <p>Programados, para vigiar e orientar doenças crónicas, ou não programados, para observar e orientar situações de doença aguda. Cada médico tem um horário semanal próprio para os domicílios programados.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ===== ATESTADOS ===== -->
+  <div class="grupo-consultas" id="outros">
+    <div class="grupo-cab">
+      <div class="icone"><svg class="ico" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></div>
+      <div><h3>Atestados</h3><p>Consultas com marcação específica.</p></div>
+    </div>
+    <div class="lista-consultas">
+      <details class="consulta">
+        <summary><span class="t"><b>Atestado para a Carta de Condução</b><small>Marcação no secretariado clínico</small></span></summary>
+        <div class="corpo">
+          <p>O atestado pode ser passado por qualquer médico no exercício da sua profissão, nos termos do art.º 25.º do RHLC. Deve pedir no secretariado clínico uma consulta específica para este fim — <b>na Consulta Aberta não se passam estes atestados</b>.</p>
+          <h4>O que trazer</h4>
+          <ul>
+            <li>Avaliação oftalmológica feita por optometrista ou oftalmologista, com menos de 6 meses;</li>
+            <li>Se tem uma doença crónica seguida no hospital (epilepsia, doenças reumatológicas, oftalmológicas, etc.), um parecer dessa especialidade.</li>
+          </ul>
+          <p>O profissional de saúde pode recusar passar o atestado se estes critérios não forem cumpridos. Mais informação sobre a legislação <a href="#"><!-- EDITAR: colocar aqui o link da legislação -->aqui</a>.</p>
+        </div>
+      </details>
+    </div>
   </div>
 </section>
 
 <section>
-  <div class="nota"><h3>Como agendar uma consulta</h3>
-    <p style="margin:0;color:var(--soft)">Qualquer uma das consultas descritas poderá ser agendada por <b>iniciativa do utente</b> – sempre que julgue necessitar de uma nova consulta ou queira antecipar outra previamente agendada – ou por <b>iniciativa do médico</b> – se tem problemas de saúde crónicos, o seu médico entregar-lhe-á, no final de cada consulta, um documento com a data e hora de agendamento da sua próxima consulta.</p></div>
+  <h2>Como se marca uma consulta</h2>
+  <p class="sub">Qualquer uma das consultas pode ser marcada de duas formas.</p>
+  <div class="agendar">
+    <div class="card"><div class="num">1.</div><h3>Por sua iniciativa</h3>
+      <p>Sempre que achar que precisa de uma nova consulta, ou queira antecipar uma que já tem marcada. Ligue para o <a href="tel:+351225574810">22 557 4810</a>, use o <a data-forms href="#">formulário por e-mail</a> ou dirija-se ao secretariado.</p></div>
+    <div class="card"><div class="num">2.</div><h3>Por iniciativa do médico</h3>
+      <p>Se tem problemas de saúde crónicos, no fim de cada consulta o seu médico entrega-lhe um documento com a data e a hora da próxima.</p></div>
+  </div>
 </section>
 </main>
 <div id="rodape"></div>
