@@ -17,6 +17,16 @@
         <button type="button" id="btn-sair" class="btn-sec">Terminar sessão</button>
       </div>
 
+      <div id="perfil-equipa" class="equipa-perfil" hidden>
+        <h3>A sua equipa de família</h3>
+        <div class="lista"></div>
+      </div>
+
+      <div class="acoes-perfil">
+        <a class="forma" data-forms href="#"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span><b>Marcar consulta</b>Formulário de marcação</span></a>
+        <a class="forma" data-receituario href="#"><svg class="ico" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 3v3h6V3M12 10v6M9 13h6"/></svg><span><b>Renovar receituário</b>Medicação crónica</span></a>
+      </div>
+
       <form id="form-perfil" class="form" novalidate>
         <fieldset><legend>Os meus dados</legend>
           <label>Nome completo
@@ -27,6 +37,8 @@
             <label>NIF <small>(opcional)</small>
               <input name="nif" inputmode="numeric" maxlength="9"></label>
           </div>
+          <label>Médico de família <small>(fica guardada a escolha mais recente)</small>
+            <select name="medicoFamilia"></select></label>
           <label>Morada
             <input name="morada" autocomplete="street-address"></label>
           <div class="duas">

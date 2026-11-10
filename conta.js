@@ -8,16 +8,16 @@
 const AUTH_CONFIG = {
   // Cole aqui os dados do projeto Firebase (Consola Firebase → Definições do projeto → As suas apps → Web)
   firebase: {
-    apiKey: "AIzaSyD64O_VCFRJ2Cxfx2hWlGfFyKP0WXt6qcM",
-    authDomain: "usf-covelo.firebaseapp.com",
-    projectId: "usf-covelo",
-    appId: "1:656683983934:web:12ed65a98ef7d445885d6f"
+    apiKey: "COLE_AQUI",
+    authDomain: "COLE_AQUI.firebaseapp.com",
+    projectId: "COLE_AQUI",
+    appId: "COLE_AQUI"
   },
   // Dados da conta EmailJS (https://www.emailjs.com) para o aviso de nova conta
   emailjs: {
-    serviceId: "service_f7t4uda",
-    templateId: "template_d72ylty",
-    publicKey: "6Wo-BY8za-3kxrnhF"
+    serviceId: "",
+    templateId: "",
+    publicKey: ""
   },
   // Para onde vai o aviso sempre que alguém cria conta
   emailNotificacao: "carolinaapinto2006@gmail.com",
@@ -27,6 +27,19 @@ const AUTH_CONFIG = {
     url: ""
   }
 };
+
+/* ===== EQUIPAS DE FAMÍLIA (EDITAR AQUI se a equipa mudar) =====
+   Cada linha: [médico, enfermeiro, secretário clínico]. Deve corresponder à página Quem Somos. */
+const EQUIPAS = [
+  ["Dr.ª Alexandra Rabaçal", "Enf.ª Joana Carvalho", "S. C.ª Júlia Silva"],
+  ["Dr.ª Andreia Ribeirinho", "Enf.ª Michele Pinto", "S. C. João Paulo"],
+  ["Dr.ª Cláudia Conceição", "Enf.ª Carla Alves", "S. C.ª Clara Pereira"],
+  ["Dr.ª Cristina Bacelar", "Enf.ª Mª João Amorim", "S. C.ª Júlia Silva"],
+  ["Dr. Gonçalo Gomes Pereira", "Enf.ª Patrícia Santos", "S. C. Rui Lima"],
+  ["Dr.ª Joana Moreira", "Enf.ª Joana Coelho", "S. C.ª Mónica Lia"],
+  ["Dr.ª Ana Rodrigues", "Enf.ª Ana Morais", "S. C.ª Susana Sobral"],
+  ["Dr.ª Patrícia Cadavez", "Enf.ª Patrícia Malhão", "S. C. Rui Lima"]
+];
 
 /* ===== A partir daqui não precisa de editar ===== */
 const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
@@ -70,6 +83,26 @@ function nifValido(nif) {
   let ctrl = 11 - (soma % 11);
   if (ctrl >= 10) ctrl = 0;
   return ctrl === Number(nif[8]);
+}
+
+/* ---------- Médico de família ---------- */
+const medicoValido = m => m === "" || EQUIPAS.some(e => e[0] === m);
+
+function preencherMedicos(select, atual) {
+  if (!select) return;
+  select.innerHTML = '<option value="">Não sei / ainda não tenho médico atribuído</option>' +
+    EQUIPAS.map(([m]) => `<option${m === atual ? " selected" : ""}>${m}</option>`).join("");
+}
+
+function mostrarEquipa(medico) {
+  const caixa = document.getElementById("perfil-equipa");
+  if (!caixa) return;
+  const eq = EQUIPAS.find(e => e[0] === medico);
+  if (!eq) { caixa.hidden = true; return; }
+  const papeis = ["Médico(a) de família", "Enfermeiro(a) de família", "Secretário(a) clínico(a)"];
+  caixa.querySelector(".lista").innerHTML = eq.map((n, i) =>
+    `<div class="membro"><span class="papel">${papeis[i]}</span><span>${n}</span></div>`).join("");
+  caixa.hidden = false;
 }
 
 /* ---------- Mensagens de erro ---------- */
@@ -160,6 +193,7 @@ async function enviarAvisoNovaConta(dados) {
           email: dados.email,
           telemovel: dados.telemovel,
           numero_utente: dados.numeroUtente,
+          medico: dados.medicoFamilia || "Não indicado",
           data: new Date().toLocaleString("pt-PT")
         }
       })
@@ -257,7 +291,8 @@ function lerDadosFormulario(form) {
     morada: form.morada.value.trim(),
     codigoPostal: form.codigoPostal.value.trim(),
     localidade: form.localidade.value.trim(),
-    nif: soDigitos(form.nif.value)
+    nif: soDigitos(form.nif.value),
+    medicoFamilia: form.medicoFamilia ? form.medicoFamilia.value : ""
   };
 }
 
@@ -269,6 +304,7 @@ function validarDados(d) {
   if (!codigoPostalValido(d.codigoPostal)) return "O código postal deve ter o formato 0000-000.";
   if (!d.localidade) return "Indique a localidade.";
   if (d.nif && !nifValido(d.nif)) return "O NIF indicado não é válido.";
+  if (!medicoValido(d.medicoFamilia)) return "Escolha um médico de família da lista.";
   return "";
 }
 
@@ -276,6 +312,7 @@ function paginaRegistar() {
   const form = document.getElementById("form-registar");
   const msg = document.getElementById("msg-registar");
   ligarBotaoCMD();
+  preencherMedicos(form.medicoFamilia, "");
   if (!auth) return avisoNaoConfigurado(form);
 
   let aCriar = false;
@@ -313,7 +350,8 @@ function paginaRegistar() {
 
       const lote = fs.writeBatch(db);
       lote.set(fs.doc(db, "utentes", uid), {
-        ...d, email, criadoEm: fs.serverTimestamp(), atualizadoEm: fs.serverTimestamp()
+        ...d, email, medicoAtualizadoEm: fs.serverTimestamp(),
+        criadoEm: fs.serverTimestamp(), atualizadoEm: fs.serverTimestamp()
       });
       lote.set(fs.doc(db, "identificadores", idSns(d.numeroUtente)), { uid, email });
       lote.set(fs.doc(db, "identificadores", idTel(d.telemovel)), { uid, email });
@@ -351,11 +389,14 @@ function paginaPerfil() {
       const s = await fs.getDoc(fs.doc(db, "utentes", uid));
       if (!s.exists()) return mostrar(msg, "Não encontrámos os dados do seu perfil. Contacte a USF.");
       atual = s.data();
+      preencherFormularios(atual);
       document.getElementById("perfil-nome").textContent = atual.nomeCompleto;
       document.getElementById("perfil-email").textContent = atual.email;
       document.getElementById("perfil-utente").textContent = atual.numeroUtente;
       for (const c of ["nomeCompleto", "telemovel", "morada", "codigoPostal", "localidade", "nif"])
         form[c].value = atual[c] || "";
+      preencherMedicos(form.medicoFamilia, atual.medicoFamilia || "");
+      mostrarEquipa(atual.medicoFamilia || "");
       document.getElementById("perfil-conteudo").hidden = false;
       document.getElementById("perfil-carregar").hidden = true;
     } catch (e) { mostrar(msg, mensagemErro(e)); }
@@ -380,13 +421,18 @@ function paginaPerfil() {
       const alterado = {
         nomeCompleto: d.nomeCompleto, telemovel: d.telemovel, morada: d.morada,
         codigoPostal: d.codigoPostal, localidade: d.localidade, nif: d.nif,
+        medicoFamilia: d.medicoFamilia,
         atualizadoEm: fs.serverTimestamp()
       };
+      // Guarda sempre a escolha mais recente do médico de família, com a data da alteração
+      if (d.medicoFamilia !== (atual.medicoFamilia || "")) alterado.medicoAtualizadoEm = fs.serverTimestamp();
       lote.update(fs.doc(db, "utentes", uid), alterado);
       await lote.commit();
       if (d.nomeCompleto !== atual.nomeCompleto) await fa.updateProfile(auth.currentUser, { displayName: d.nomeCompleto });
       atual = { ...atual, ...alterado };
+      preencherFormularios(atual);
       document.getElementById("perfil-nome").textContent = d.nomeCompleto;
+      mostrarEquipa(d.medicoFamilia);
       atualizarCabecalho(auth.currentUser);
       mostrar(msg, "Dados atualizados.", "ok");
     } catch (e) { mostrar(msg, mensagemErro(e)); }
@@ -396,6 +442,37 @@ function paginaPerfil() {
   document.getElementById("btn-sair").addEventListener("click", () => fa.signOut(auth));
 }
 
+/* ---------- Formulários Google pré-preenchidos com os dados do utente ----------
+   Só funciona para as perguntas cujo número "entry.…" foi indicado em site.js
+   (CONFIG.preencherFormularios). Assim o médico de família escolhido no perfil
+   aparece já preenchido no formulário de marcação e no de receituário. */
+function urlPreenchido(base, campos, dados) {
+  if (!base || !campos) return base;
+  const pares = Object.entries(campos).filter(([k, id]) => id && dados[k]);
+  if (!pares.length) return base;
+  const u = new URL(base);
+  u.searchParams.set("usp", "pp_url");
+  for (const [k, id] of pares) u.searchParams.set(id.startsWith("entry.") ? id : "entry." + id, dados[k]);
+  return u.toString();
+}
+
+function preencherFormularios(dados) {
+  if (typeof CONFIG === "undefined" || !CONFIG.preencherFormularios || !dados) return;
+  const cfg = CONFIG.preencherFormularios;
+  const marc = urlPreenchido(CONFIG.formsUrl, cfg.marcacao, dados);
+  const rec = urlPreenchido(CONFIG.receituarioUrl, cfg.receituario, dados);
+  document.querySelectorAll("a[data-forms]").forEach(a => a.href = marc);
+  document.querySelectorAll("a[data-receituario]").forEach(a => a.href = rec);
+}
+
+async function prepararFormulariosDoUtente(user) {
+  if (!user || !document.querySelector("a[data-forms],a[data-receituario]")) return;
+  try {
+    const s = await fs.getDoc(fs.doc(db, "utentes", user.uid));
+    if (s.exists()) preencherFormularios(s.data());
+  } catch (_) { /* sem dados: os formulários abrem vazios */ }
+}
+
 /* =====================================================================
    ARRANQUE
    ===================================================================== */
@@ -403,7 +480,10 @@ function paginaPerfil() {
   try { await iniciarFirebase(); }
   catch (e) { console.error("Não foi possível carregar o Firebase:", e); }
 
-  if (auth) fa.onAuthStateChanged(auth, atualizarCabecalho);
+  if (auth) fa.onAuthStateChanged(auth, u => {
+    atualizarCabecalho(u);
+    if (document.body.dataset.pagina !== "perfil") prepararFormulariosDoUtente(u);
+  });
 
   const pagina = document.body.dataset.pagina;
   if (pagina === "entrar") paginaEntrar();

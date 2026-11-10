@@ -31,6 +31,7 @@ Ficheiros novos: `entrar.html`, `registar.html`, `perfil.html`, `conta.js`, `fir
      Nome: {{nome}}
      N.º de utente: {{numero_utente}}
      Telemóvel: {{telemovel}}
+     Médico de família: {{medico}}
      E-mail: {{email}}
      ```
    Guarde e copie o **Template ID**.
@@ -69,3 +70,20 @@ chaveMovelDigital: { ativo: true, url: "https://…" }
 - O registo pede consentimento explícito. Convém criar uma página de **Política de Privacidade** e ligá-la a partir desse texto.
 - Pedidos de eliminação de conta: apagar o utilizador em *Authentication* e os documentos em `utentes` e `identificadores` na consola Firebase.
 - Quem souber o telemóvel ou o n.º de utente de alguém consegue descobrir o e-mail associado (necessário para o início de sessão sem servidor). Para eliminar este ponto é preciso um pequeno servidor (Firebase Cloud Functions, plano Blaze).
+
+## 6. Médico de família e formulários pré-preenchidos
+
+- Na criação de conta e no perfil, o utente escolhe o seu **médico de família** (fica guardada a escolha mais recente). No perfil aparece a equipa completa (médico, enfermeiro e secretário clínico).
+- A lista de equipas está no topo de `conta.js` (`EQUIPAS`). Se a equipa mudar, altere lá e na página `quem-somos.html`.
+- As regras do Firestore foram atualizadas para aceitar este campo: **volte a colar `firestore.rules` em Firestore → Regras e clique em Publicar.**
+
+### Pré-preencher os formulários Google (opcional)
+
+Quando o utente tem sessão iniciada, os botões *Marcar consulta* e *Renovar receituário* podem abrir o formulário já com o nome, n.º de utente, telemóvel e médico de família preenchidos:
+
+1. Abra o formulário no Google Forms (modo de edição) → menu **⋮** → **Obter link pré-preenchido**.
+2. Escreva qualquer coisa em cada pergunta (ex.: "NOME", "UTENTE", "TELEMOVEL") e clique **Obter link** → **Copiar link**.
+3. No link copiado aparecem pedaços como `entry.123456789=NOME`. O número `entry.123456789` é o identificador dessa pergunta.
+4. Cole cada identificador no sítio certo em `site.js` → `preencherFormularios` (bloco `marcacao` para o formulário de consultas, `receituario` para o de receituário).
+
+Se a pergunta do médico for de **escolha múltipla**, as opções no formulário têm de estar escritas exatamente como na lista `EQUIPAS` (ex.: `Dr.ª Joana Moreira`).
