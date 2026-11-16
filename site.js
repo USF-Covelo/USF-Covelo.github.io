@@ -1,3 +1,20 @@
+/* ===== LÍNGUA DO SITE =====
+   Abre sempre em português de Portugal. A escolha de outra língua dura
+   enquanto o separador estiver aberto (fecha → volta ao português).
+   As traduções estão nos ficheiros lingua-en.js, lingua-es.js, lingua-fr.js e lingua-ar.js. */
+const LINGUAS = [
+  ["pt-PT", "PT", "Português"],
+  ["en", "EN", "English"],
+  ["es", "ES", "Español"],
+  ["fr", "FR", "Français"],
+  ["ar", "AR", "العربية"]
+];
+let LINGUA = "pt-PT";
+try { LINGUA = sessionStorage.getItem("lingua") || "pt-PT"; } catch (_) {}
+if (!LINGUAS.some(l => l[0] === LINGUA)) LINGUA = "pt-PT";
+document.documentElement.lang = LINGUA;
+document.documentElement.dir = LINGUA === "ar" ? "rtl" : "ltr";
+
 /* ===== CONFIGURAÇÃO (EDITAR AQUI) ===== */
 const CONFIG = {
   nome: "USF Covelo",
@@ -16,6 +33,7 @@ const MENU = [
   ["Funcionamento", "funcionamento.html"],
   ["Área do Utente", "area-do-utente.html"],
   ["Informações Úteis", "informacoes-uteis.html"],
+  ["Notícias", "noticias.html"],
   ["Contactos", "contactos.html"]
 ];
 
@@ -32,10 +50,12 @@ const ICO = {
   mail: '<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
   relogio: '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   local: '<svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
-  menu: '<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'
+  menu: '<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  globo: '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>'
 };
 
-const atual = location.pathname.split("/").pop() || "index.html";
+let atual = location.pathname.split("/").pop() || "index.html";
+if (atual === "noticia.html") atual = "noticias.html";
 const links = MENU.map(([n, f]) =>
   `<a href="${f}" class="${(f === atual) ? "ativo" : ""}">${n}</a>`).join("");
 
@@ -52,11 +72,37 @@ document.getElementById("cabecalho").innerHTML = `
     <img src="${IMG.logo}" alt="Logótipo da USF Covelo" width="52" height="46">
     <span><b>${CONFIG.nome}</b><small>Unidade de Saúde Familiar · Porto</small></span>
   </a>
-  <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">${ICO.menu} Menu</button>
   <nav class="menu" id="menu-principal">${links}<a href="entrar.html" id="conta-link" class="conta-btn">Entrar</a></nav>
+  <div class="cab-acoes">
+    <label class="lingua" title="Língua · Language">${ICO.globo}<span class="codigo" aria-hidden="true">${LINGUAS.find(l => l[0] === LINGUA)[1]}</span>
+      <select id="escolher-lingua" aria-label="Língua · Language">
+        ${LINGUAS.map(([c, s, n]) => `<option value="${c}"${c === LINGUA ? " selected" : ""}>${s} · ${n}</option>`).join("")}
+      </select></label>
+    <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal">${ICO.menu} Menu</button>
+  </div>
 </div></header>`;
 
+document.getElementById("escolher-lingua").addEventListener("change", ev => {
+  try {
+    if (ev.target.value === "pt-PT") sessionStorage.removeItem("lingua");
+    else sessionStorage.setItem("lingua", ev.target.value);
+  } catch (_) {}
+  location.reload();
+});
+
 /* Menu em telemóveis */
+/* Passa ao menu compacto (botão "Menu") sempre que os separadores não cabem numa linha */
+function ajustarMenu() {
+  const cab = document.querySelector("header.site");
+  const wrap = cab.querySelector(".wrap");
+  cab.classList.remove("compacto");
+  // se o cabeçalho passar a ter mais de uma linha ou não couber, usa o botão "Menu"
+  if (window.innerWidth < 760 || wrap.scrollWidth > wrap.clientWidth + 1 || cab.offsetHeight > 96) cab.classList.add("compacto");
+}
+ajustarMenu();
+window.addEventListener("resize", ajustarMenu);
+if (document.fonts) document.fonts.ready.then(ajustarMenu);
+
 const botaoMenu = document.querySelector(".menu-toggle");
 const menu = document.getElementById("menu-principal");
 botaoMenu.addEventListener("click", () => {
@@ -124,3 +170,73 @@ document.querySelectorAll("[data-foto]").forEach(el => {
   im.onload = () => { el.style.backgroundImage = `url("${ficheiro}")`; el.classList.add("tem-foto"); };
   im.src = ficheiro;
 });
+
+/* Notícias (página inicial, lista e notícia) — ver noticias.js */
+if (typeof renderNoticias === "function") renderNoticias();
+
+/* ===== TRADUÇÃO =====
+   Troca cada texto em português pela tradução do ficheiro da língua escolhida.
+   Também traduz textos que aparecem depois (mensagens, listas, notícias). */
+(function () {
+  if (LINGUA === "pt-PT") return;
+  const s = document.createElement("script");
+  s.src = "lingua-" + LINGUA + ".js";
+  s.onload = iniciarTraducao;
+  document.head.appendChild(s);
+
+  const IGNORAR = new Set(["SCRIPT", "STYLE", "TEXTAREA", "CODE", "PRE"]);
+  const ATRIBUTOS = ["placeholder", "aria-label", "alt", "title", "label"];
+  const limpar = t => t.replace(/\s+/g, " ").trim();
+
+  function traduzirTexto(t) {
+    const T = window.TRADUCAO;
+    const chave = limpar(t);
+    if (!chave) return null;
+    if (Object.prototype.hasOwnProperty.call(T.textos, chave)) return T.textos[chave];
+    for (const [re, sub] of T.padroes || []) if (re.test(chave)) return chave.replace(re, sub);
+    return null;
+  }
+
+  // Lembra o que já foi traduzido, para nunca traduzir duas vezes o mesmo texto
+  const feitos = new WeakMap();
+
+  function traduzirNo(no) {
+    if (no.nodeType === 3) {
+      const p = no.parentNode;
+      if (!p || IGNORAR.has(p.nodeName) || p.closest("[data-nao-traduzir]")) return;
+      if (feitos.get(no) === no.nodeValue) return;
+      const novo = traduzirTexto(no.nodeValue);
+      if (novo !== null) {
+        const m = no.nodeValue.match(/^(\s*)[\s\S]*?(\s*)$/);
+        const final = m[1] + novo + m[2];
+        if (final !== no.nodeValue) no.nodeValue = final;
+      }
+      feitos.set(no, no.nodeValue);
+      return;
+    }
+    if (no.nodeType !== 1 || IGNORAR.has(no.nodeName) || no.hasAttribute("data-nao-traduzir")) return;
+    for (const a of ATRIBUTOS) {
+      if (!no.hasAttribute(a)) continue;
+      const atual = no.getAttribute(a), chave = "t-" + a;
+      if (no.dataset[chave.replace(/-(\w)/g, (_, c) => c.toUpperCase())] === atual) continue;
+      const n = traduzirTexto(atual);
+      if (n !== null && n !== atual) no.setAttribute(a, n);
+      no.dataset[chave.replace(/-(\w)/g, (_, c) => c.toUpperCase())] = no.getAttribute(a);
+    }
+    no.childNodes.forEach(traduzirNo);
+  }
+
+  function iniciarTraducao() {
+    if (!window.TRADUCAO) return;
+    const titulo = document.title.split(" · ").map(x => traduzirTexto(x) ?? x).join(" · ");
+    document.title = titulo;
+    traduzirNo(document.body);
+    ajustarMenu();
+    new MutationObserver(lista => {
+      for (const m of lista) {
+        if (m.type === "characterData") traduzirNo(m.target);
+        else m.addedNodes.forEach(traduzirNo);
+      }
+    }).observe(document.body, { subtree: true, childList: true, characterData: true });
+  }
+})();

@@ -71,7 +71,22 @@ const medicoValido = m => m === "" || EQUIPAS.some(e => e[0] === m);
 function preencherMedicos(select, atual) {
   if (!select) return;
   select.innerHTML = '<option value="">Não sei / ainda não tenho médico atribuído</option>' +
-    EQUIPAS.map(([m]) => `<option${m === atual ? " selected" : ""}>${m}</option>`).join("");
+    EQUIPAS.map(([m]) => `<option value="${m}"${m === atual ? " selected" : ""}>${m}</option>`).join("");
+}
+
+/* No perfil: se o médico mais escolhido nos pedidos for diferente do indicado, sugere associá-lo */
+function sugerirMedicoNoPerfil(form, perfil) {
+  const caixa = document.getElementById("sugestao-medico");
+  if (!caixa) return;
+  const sugerido = medicoMaisEscolhido(perfil.historicoMedicos);
+  if (!sugerido || sugerido === perfil.medicoFamilia) { caixa.hidden = true; return; }
+  caixa.querySelector(".nome-sugerido").textContent = sugerido;
+  caixa.hidden = false;
+  caixa.querySelector("button").onclick = () => {
+    form.medicoFamilia.value = sugerido;
+    caixa.hidden = true;
+    form.requestSubmit();
+  };
 }
 
 function mostrarEquipa(medico) {
@@ -376,6 +391,7 @@ function paginaPerfil() {
         form[c].value = atual[c] || "";
       preencherMedicos(form.medicoFamilia, atual.medicoFamilia || "");
       mostrarEquipa(atual.medicoFamilia || "");
+      sugerirMedicoNoPerfil(form, atual);
       document.getElementById("perfil-conteudo").hidden = false;
       document.getElementById("perfil-carregar").hidden = true;
     } catch (e) { mostrar(msg, mensagemErro(e)); }
@@ -436,8 +452,8 @@ function opcoesMedico(select) {
   select.innerHTML =
     '<option value="" disabled selected>Escolha uma opção</option>' +
     '<optgroup label="Médicos de família da USF Covelo">' +
-    EQUIPAS.map(([m]) => `<option>${m}</option>`).join("") + "</optgroup>" +
-    `<optgroup label="Outras opções"><option>${SEM_MEDICO}</option><option>${NAO_SEI_MEDICO}</option></optgroup>`;
+    EQUIPAS.map(([m]) => `<option value="${m}">${m}</option>`).join("") + "</optgroup>" +
+    `<optgroup label="Outras opções"><option value="${SEM_MEDICO}">${SEM_MEDICO}</option><option value="${NAO_SEI_MEDICO}">${NAO_SEI_MEDICO}</option></optgroup>`;
 }
 
 async function enviarEmail(templateId, params) {
@@ -497,6 +513,39 @@ function renumerarMedicamentos(lista) {
   lista.querySelectorAll(".medicamento").forEach((m, i) => m.querySelector(".medicamento-cab b").textContent = "Medicamento " + (i + 1));
 }
 
+/* ---------- Médico recomendado ----------
+   Guarda os médicos escolhidos nos últimos pedidos (até 20) e recomenda o
+   mais escolhido; em caso de empate, o escolhido mais recentemente.
+   Sem pedidos anteriores, usa o médico de família indicado no perfil. */
+const MAX_HISTORICO = 20;
+const eMedicoDaUSF = m => EQUIPAS.some(e => e[0] === m);
+
+function medicoMaisEscolhido(historico) {
+  const lista = (Array.isArray(historico) ? historico : []).filter(eMedicoDaUSF);
+  if (!lista.length) return "";
+  const conta = {};
+  lista.forEach((m, i) => { conta[m] = conta[m] || { n: 0, ultimo: 0 }; conta[m].n++; conta[m].ultimo = i; });
+  return Object.entries(conta).sort((a, b) => b[1].n - a[1].n || b[1].ultimo - a[1].ultimo)[0][0];
+}
+
+function medicoRecomendado(perfil) {
+  const doHistorico = medicoMaisEscolhido(perfil.historicoMedicos);
+  if (doHistorico) return { medico: doHistorico, origem: "historico" };
+  if (eMedicoDaUSF(perfil.medicoFamilia)) return { medico: perfil.medicoFamilia, origem: "perfil" };
+  return { medico: "", origem: "" };
+}
+
+async function registarMedicoNoHistorico(uid, medico) {
+  if (!uid || !eMedicoDaUSF(medico)) return;
+  try {
+    const ref = fs.doc(db, "utentes", uid);
+    const s = await fs.getDoc(ref);
+    if (!s.exists()) return;
+    const hist = (s.data().historicoMedicos || []).concat(medico).slice(-MAX_HISTORICO);
+    await fs.updateDoc(ref, { historicoMedicos: hist });
+  } catch (e) { console.warn("Não foi possível guardar o médico escolhido:", e); }
+}
+
 async function preencherComPerfil(form) {
   if (!auth) return;
   const u = await new Promise(res => { const off = fa.onAuthStateChanged(auth, x => { off(); res(x); }); });
@@ -507,8 +556,19 @@ async function preencherComPerfil(form) {
     const p = s.data();
     if (!form.nome.value) form.nome.value = p.nomeCompleto || "";
     if (!form.numeroUtente.value) form.numeroUtente.value = p.numeroUtente || "";
-    if (p.medicoFamilia && !form.medicoFamilia.value) form.medicoFamilia.value = p.medicoFamilia;
+    const rec = medicoRecomendado(p);
+    if (rec.medico && !form.medicoFamilia.value) {
+      form.medicoFamilia.value = rec.medico;
+      const notaMedico = document.getElementById("nota-medico");
+      if (notaMedico) {
+        notaMedico.textContent = rec.origem === "historico"
+          ? "Sugerido: é o médico que escolheu mais vezes nos seus pedidos anteriores."
+          : "Sugerido: é o médico de família indicado no seu perfil.";
+        notaMedico.hidden = false;
+      }
+    }
     form.dataset.email = p.email || "";
+    form.dataset.uid = u.uid;
     const nota = document.getElementById("nota-sessao");
     if (nota) nota.hidden = false;
   } catch (_) { /* sem dados do perfil: o utente preenche à mão */ }
@@ -613,6 +673,7 @@ function paginaPedido(pagina) {
         mensagem: textoEmail(titulo, linhas, medicamentos)
       });
       try { localStorage.setItem(chave, String(Date.now())); } catch (_) {}
+      await registarMedicoNoHistorico(form.dataset.uid, medico);
       document.getElementById("pedido-enviado").hidden = false;
       document.getElementById("pedido-resumo").textContent = textoEmail(titulo, linhas.filter(l => l[0] !== "Conta no site"), medicamentos);
       form.hidden = true;

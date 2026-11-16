@@ -15,7 +15,8 @@ service cloud.firestore {
         && d.codigoPostal.matches('^[0-9]{4}-[0-9]{3}$')
         && texto(d.localidade, 80) && d.localidade.size() > 0
         && (d.nif == '' || d.nif.matches('^[0-9]{9}$'))
-        && (!('medicoFamilia' in d) || texto(d.medicoFamilia, 80));
+        && (!('medicoFamilia' in d) || texto(d.medicoFamilia, 80))
+        && (!('historicoMedicos' in d) || (d.historicoMedicos is list && d.historicoMedicos.size() <= 20));
     }
 
     // Perfil de cada utente: só o próprio lê e altera

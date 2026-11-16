@@ -100,3 +100,21 @@ Notas:
 - O plano gratuito do EmailJS tem um limite de e-mails por mês (avisos de conta + pedidos). Se a USF começar a receber muitos pedidos, pode ser preciso um plano pago.
 - Recomenda-se ativar em *Account → Security* a restrição ao domínio do site e, se possível, o reCAPTCHA, para evitar envios automáticos.
 - Estes e-mails contêm dados de saúde (medicação). Antes de abrir os formulários ao público, o destino deve ser um e-mail institucional da USF e a solução deve ser validada pelo Encarregado de Proteção de Dados da ULS.
+
+## 8. Médico recomendado nos pedidos
+
+Quando o utente tem sessão iniciada, cada pedido de marcação ou de receituário guarda o médico escolhido (até aos últimos 20 pedidos). Da vez seguinte, o formulário já aparece com o médico **escolhido mais vezes** (em caso de empate, o mais recente); se ainda não houver pedidos, usa o médico indicado no perfil. No perfil, se o médico mais escolhido for diferente do indicado, aparece a sugestão "Associar como meu médico de família".
+
+**Importante:** as regras do Firestore mudaram para permitir guardar este histórico. Volte a colar `firestore.rules` em *Firestore → Regras* e clique em **Publicar**.
+
+## 9. Notícias
+
+As notícias estão no ficheiro `noticias.js`. Para acrescentar uma, copie o bloco da notícia existente, cole-o no início da lista e altere título, data, texto e ficheiros. A página inicial mostra as 3 mais recentes; a página *Notícias* mostra todas.
+
+As imagens e os vídeos ficam no repositório, ao lado das páginas. O GitHub só aceita ficheiros até **25 MB** quando se carregam pelo navegador, por isso os vídeos têm de ser comprimidos (por exemplo, em 720p).
+
+## 10. Línguas
+
+O site abre sempre em português. O utente pode escolher inglês, espanhol, francês ou árabe no seletor ao lado do menu; a escolha mantém-se enquanto o separador estiver aberto.
+
+As traduções estão nos ficheiros `lingua-en.js`, `lingua-es.js`, `lingua-fr.js` e `lingua-ar.js`, no formato `"texto em português": "tradução"`. **Quando mudar um texto do site em português, tem de mudar também a frase correspondente em cada um destes ficheiros**; se não o fizer, esse texto aparece em português nas outras línguas. Os pedidos enviados por e-mail chegam sempre em português, seja qual for a língua escolhida.
