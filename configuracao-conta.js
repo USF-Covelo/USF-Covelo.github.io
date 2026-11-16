@@ -6,18 +6,18 @@
 export const AUTH_CONFIG = {
   // Dados do projeto Firebase (Consola Firebase → Definições do projeto → As suas apps → Web)
   firebase: {
-    apiKey: "COLE_AQUI",
-    authDomain: "COLE_AQUI.firebaseapp.com",
-    projectId: "COLE_AQUI",
-    appId: "COLE_AQUI"
+    apiKey: "AIzaSyD64O_VCFRJ2Cxfx2hWlGfFyKP0WXt6qcM",
+    authDomain: "usf-covelo.firebaseapp.com",
+    projectId: "usf-covelo",
+    appId: "1:656683983934:web:12ed65a98ef7d445885d6f"
   },
 
   // Dados da conta EmailJS (https://www.emailjs.com)
   emailjs: {
-    serviceId: "",
-    publicKey: "",
-    templateId: "",         // modelo do aviso de nova conta
-    templatePedidos: ""     // modelo dos pedidos de consulta e de receituário
+    serviceId: "service_f7t4uda",
+    publicKey: "a1B2c3D4e5",
+    templateId: "template_d72ylty",         // modelo do aviso de nova conta
+    templatePedidos: "6Wo-BY8za-3kxrnhF"     // modelo dos pedidos de consulta e de receituário
   },
 
   // Para onde vai o aviso sempre que alguém cria conta
