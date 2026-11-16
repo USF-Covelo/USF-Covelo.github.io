@@ -367,3 +367,12 @@ a[href^="tel:"],a[href^="mailto:"],.topbar span{unicode-bidi:isolate}
 [dir=rtl] .acesso a{border-right:0;border-left:1px solid #f0ece3}
 [dir=rtl] .acesso a:last-child{border-left:0}
 @media(max-width:900px){[dir=rtl] .acesso a:nth-child(3n){border-left:0}}
+.artigo-subtitulo{font-size:1.3rem;margin:28px 0 6px}
+.artigo-lista{padding-left:22px;margin:10px 0 16px;color:var(--soft);font-size:1.03rem}
+.artigo-lista li{margin-bottom:10px}
+.artigo-lista b{color:var(--azul)}
+[dir=rtl] .artigo-lista{padding-left:0;padding-right:22px}
+.artigo-instagram{margin:14px auto 6px;max-width:460px}
+.artigo-instagram iframe{width:100%;height:760px;border:1px solid var(--bd);border-radius:12px;background:#fff;display:block}
+.artigo-instagram figcaption{font-size:.88rem;color:var(--soft);margin-top:8px;text-align:center}
+@media(max-width:600px){.artigo-instagram iframe{height:640px}}

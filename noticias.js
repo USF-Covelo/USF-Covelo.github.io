@@ -1,14 +1,21 @@
 /* =====================================================================
    NOTÍCIAS DA USF COVELO (EDITAR AQUI)
-   Para acrescentar uma notícia, copie um bloco { … }, cole-o no INÍCIO
-   da lista (a mais recente fica primeiro) e altere os dados.
+   Para acrescentar uma notícia, copie um bloco { … } inteiro, cole-o na
+   lista e altere os dados. As notícias aparecem ordenadas pela data
+   (a mais recente primeiro).
    - id:      nome curto, sem espaços nem acentos (aparece no endereço da página)
    - data:    no formato AAAA-MM-DD
-   - capa:    imagem que aparece no cartão da página inicial e da lista
-   - imagem:  imagem que aparece no topo da notícia (pode ser igual à capa)
-   - video:   ficheiro de vídeo (opcional; deixe "" se não houver)
-   - resumo:  uma ou duas frases para o cartão
-   - texto:   parágrafos da notícia, cada um entre aspas e separados por vírgulas
+   - capa:    imagem do cartão (página inicial e lista de notícias)
+   - imagem:  imagem do topo da notícia
+   - video:   ficheiro de vídeo da própria USF (opcional; "" se não houver)
+   - resumo:  uma ou duas frases (opcional)
+   - texto:   o corpo da notícia, por esta ordem. Cada elemento pode ser:
+        "um parágrafo"
+        { titulo: "um subtítulo" }
+        { lista: ["Tema: explicação", "Outro tema: explicação"] }
+             (o que estiver antes dos dois pontos aparece a negrito)
+        { video: true }          → mostra aqui o vídeo indicado em "video"
+        { instagram: "endereço de uma publicação ou reel do Instagram" }
    Os ficheiros de imagem e de vídeo têm de estar no repositório, ao lado das páginas.
    ===================================================================== */
 const NOTICIAS = [
@@ -21,9 +28,40 @@ const NOTICIAS = [
     video: "noticia-gasa.mp4",
     resumo: "A USF Covelo regressou ao Ribadouro no âmbito do GASA – Gabinete de Apoio à Saúde do Adolescente.",
     texto: [
-      // EDITAR: substitua ou complete este texto
-      "A USF Covelo voltou ao Ribadouro para dar continuidade ao GASA – Gabinete de Apoio à Saúde do Adolescente, um projeto dedicado à saúde dos jovens.",
-      "Veja no vídeo abaixo como decorreu."
+      "A Unidade de Saúde Familiar (USF) Covelo, em estreita parceria com o Colégio Ribadouro, dinamiza o Projeto GASA (Gabinete de Apoio à Saúde do Adolescente) — uma iniciativa de promoção da saúde e literacia em saúde dedicada especificamente à comunidade juvenil.",
+      "Com uma periodicidade semanal, uma equipa composta por médicas de Medicina Geral e Familiar da USF Covelo desloca-se às instalações do Colégio Ribadouro para assegurar um espaço de atendimento, escuta ativa e aconselhamento clínico próximo e acessível.",
+      "A adolescência é uma fase de profundas transformações físicas, emocionais e sociais, na qual a procura espontânea pelos cuidados de saúde primários nem sempre acontece. O Projeto GASA visa quebrar barreiras de acesso, levando os cuidados de saúde diretamente ao contexto escolar.",
+      "Durante as sessões semanais, a equipa médica aborda de forma confidencial, empática e livre de juízos de valor as principais questões e desafios típicos desta faixa etária, nomeadamente:",
+      { lista: [
+        "Saúde Mental e Bem-Estar Emocional: Gestão do stress, ansiedade, autoestima e relações interpessoais.",
+        "Saúde Sexual e Reprodutiva: Esclarecimento de dúvidas, prevenção de infeções sexualmente transmissíveis (IST) e planeamento familiar.",
+        "Hábitos de Vida Saudáveis: Alimentação equilibrada, prática de exercício físico e higiene do sono.",
+        "Prevenção de Comportamentos de Risco: Sensibilização sobre o consumo de substâncias (tabaco, álcool e outras) e o uso saudável das tecnologias e redes sociais."
+      ] },
+      { titulo: "Conheça o Projeto em Vídeo" },
+      { video: true },
+      "Com esta iniciativa, a USF Covelo reafirma o seu compromisso com a saúde comunitária e a medicina preventiva, apostando na capacitação dos jovens para que tomem decisões informadas e conscientes sobre a sua própria saúde e bem-estar."
+    ]
+  },
+  {
+    id: "congresso-ordem-medicos-2026",
+    titulo: "A presença dos nossos médicos no Congresso da Ordem dos Médicos",
+    data: "2026-11-13",
+    capa: "noticia-congresso-capa.jpg",
+    imagem: "noticia-congresso-topo.jpg",
+    video: "",
+    resumo: "A equipa médica da USF Covelo esteve no 29.º Congresso Nacional da Ordem dos Médicos, a 12 e 13 de novembro.",
+    texto: [
+      "Nos passados dias 12 e 13 de novembro, a equipa médica da USF Covelo esteve presente no Congresso da Ordem dos Médicos, este ano dedicado ao tema \"Um Médico num Mundo em Evolução\". Foram dois dias de partilha, debate e reflexão sobre os caminhos que a medicina está a trilhar.",
+      "A participação ativa nestes encontros científicos faz parte do nosso compromisso diário com a atualização contínua. Num setor onde a tecnologia, a demografia e as próprias necessidades dos utentes mudam a um ritmo acelerado, parar para ouvir colegas de todo o país e discutir boas práticas é fundamental para continuar a prestar cuidados de excelência.",
+      "Ao longo do congresso, o programa trouxe para cima da mesa questões muito concretas do nosso dia a dia na unidade, com especial foco em:",
+      { lista: [
+        "Inovação e Saúde Digital: O impacto da inteligência artificial e das novas ferramentas tecnológicas na prática clínica, sem nunca perder de vista a humanização e a relação médico-doente.",
+        "Novos Paradigmas em Saúde: A adaptação dos serviços de saúde ao envelhecimento da população e à gestão cada vez mais complexa da doença crónica.",
+        "Formação e Futuro da Profissão: Os desafios enfrentados pelas novas gerações de médicos e a importância de garantir condições para uma medicina sustentável e próxima das pessoas."
+      ] },
+      { titulo: "O congresso no Instagram da Ordem dos Médicos" },
+      { instagram: "https://www.instagram.com/reel/Dfp-iHbNS01/" }
     ]
   }
 ];
@@ -45,7 +83,37 @@ function cartaoNoticia(n) {
   </a>`;
 }
 
+/* Corpo da notícia: parágrafos, subtítulos, listas, vídeo e Instagram */
+function htmlVideo(n) {
+  return `<video class="artigo-video" controls preload="metadata" playsinline${n.capa ? ` poster="${n.capa}"` : ""}><source src="${n.video}" type="video/mp4">O seu navegador não consegue mostrar este vídeo.</video>`;
+}
+
+function htmlInstagram(url) {
+  const limpo = String(url).split("?")[0].replace(/\/?$/, "/");
+  return `<figure class="artigo-instagram">
+    <iframe src="${limpo}embed/" title="Vídeo da Ordem dos Médicos no Instagram" loading="lazy" allowfullscreen scrolling="no"></iframe>
+    <figcaption>Vídeo publicado pela Ordem dos Médicos no Instagram. <a href="${limpo}" target="_blank" rel="noopener">Abrir no Instagram</a></figcaption>
+  </figure>`;
+}
+
+function htmlCorpo(n) {
+  let videoMostrado = false;
+  const partes = n.texto.map(b => {
+    if (typeof b === "string") return `<p>${b}</p>`;
+    if (b.titulo) return `<h2 class="artigo-subtitulo">${b.titulo}</h2>`;
+    if (b.lista) return `<ul class="artigo-lista">${b.lista.map(item => {
+      const i = item.indexOf(": ");
+      return i > 0 ? `<li><b>${item.slice(0, i + 1)}</b> ${item.slice(i + 2)}</li>` : `<li>${item}</li>`;
+    }).join("")}</ul>`;
+    if (b.video && n.video) { videoMostrado = true; return htmlVideo(n); }
+    if (b.instagram) return htmlInstagram(b.instagram);
+    return "";
+  }).join("");
+  return partes + (n.video && !videoMostrado ? htmlVideo(n) : "");
+}
+
 function renderNoticias() {
+  NOTICIAS.sort((a, b) => b.data.localeCompare(a.data));
   // Página inicial: as 3 mais recentes
   const inicio = document.getElementById("ultimas-noticias");
   if (inicio) inicio.innerHTML = NOTICIAS.slice(0, 3).map(cartaoNoticia).join("");
@@ -67,8 +135,7 @@ function renderNoticias() {
       <div class="artigo-texto">
         <time datetime="${n.data}">${dataNoticia(n.data)}</time>
         <h1>${n.titulo}</h1>
-        ${n.texto.map(p => `<p>${p}</p>`).join("")}
-        ${n.video ? `<video class="artigo-video" controls preload="metadata" playsinline${n.capa ? ` poster="${n.capa}"` : ""}><source src="${n.video}" type="video/mp4">O seu navegador não consegue mostrar este vídeo.</video>` : ""}
+        ${htmlCorpo(n)}
         <p class="voltar"><a href="noticias.html">← Ver todas as notícias</a></p>
       </div>`;
     const outras = document.getElementById("outras-noticias");
