@@ -4,29 +4,9 @@
    Ver o ficheiro INSTRUCOES-AUTENTICACAO.md para configurar.
    ===================================================================== */
 
-/* ===== CONFIGURAÇÃO (EDITAR AQUI) ===== */
-const AUTH_CONFIG = {
-  // Cole aqui os dados do projeto Firebase (Consola Firebase → Definições do projeto → As suas apps → Web)
-  firebase: {
-    apiKey: "COLE_AQUI",
-    authDomain: "COLE_AQUI.firebaseapp.com",
-    projectId: "COLE_AQUI",
-    appId: "COLE_AQUI"
-  },
-  // Dados da conta EmailJS (https://www.emailjs.com) para o aviso de nova conta
-  emailjs: {
-    serviceId: "",
-    templateId: "",
-    publicKey: ""
-  },
-  // Para onde vai o aviso sempre que alguém cria conta
-  emailNotificacao: "carolinaapinto2006@gmail.com",
-  // Chave Móvel Digital: só funciona depois de a ULS aderir ao Autenticação.gov (ver instruções)
-  chaveMovelDigital: {
-    ativo: false,
-    url: ""
-  }
-};
+/* ===== CONFIGURAÇÃO =====
+   Os códigos do Firebase e do EmailJS estão no ficheiro configuracao-conta.js */
+import { AUTH_CONFIG } from "./configuracao-conta.js";
 
 /* ===== EQUIPAS DE FAMÍLIA (EDITAR AQUI se a equipa mudar) =====
    Cada linha: [médico, enfermeiro, secretário clínico]. Deve corresponder à página Quem Somos. */
@@ -389,7 +369,6 @@ function paginaPerfil() {
       const s = await fs.getDoc(fs.doc(db, "utentes", uid));
       if (!s.exists()) return mostrar(msg, "Não encontrámos os dados do seu perfil. Contacte a USF.");
       atual = s.data();
-      preencherFormularios(atual);
       document.getElementById("perfil-nome").textContent = atual.nomeCompleto;
       document.getElementById("perfil-email").textContent = atual.email;
       document.getElementById("perfil-utente").textContent = atual.numeroUtente;
@@ -430,7 +409,6 @@ function paginaPerfil() {
       await lote.commit();
       if (d.nomeCompleto !== atual.nomeCompleto) await fa.updateProfile(auth.currentUser, { displayName: d.nomeCompleto });
       atual = { ...atual, ...alterado };
-      preencherFormularios(atual);
       document.getElementById("perfil-nome").textContent = d.nomeCompleto;
       mostrarEquipa(d.medicoFamilia);
       atualizarCabecalho(auth.currentUser);
@@ -442,35 +420,200 @@ function paginaPerfil() {
   document.getElementById("btn-sair").addEventListener("click", () => fa.signOut(auth));
 }
 
-/* ---------- Formulários Google pré-preenchidos com os dados do utente ----------
-   Só funciona para as perguntas cujo número "entry.…" foi indicado em site.js
-   (CONFIG.preencherFormularios). Assim o médico de família escolhido no perfil
-   aparece já preenchido no formulário de marcação e no de receituário. */
-function urlPreenchido(base, campos, dados) {
-  if (!base || !campos) return base;
-  const pares = Object.entries(campos).filter(([k, id]) => id && dados[k]);
-  if (!pares.length) return base;
-  const u = new URL(base);
-  u.searchParams.set("usp", "pp_url");
-  for (const [k, id] of pares) u.searchParams.set(id.startsWith("entry.") ? id : "entry." + id, dados[k]);
-  return u.toString();
+/* =====================================================================
+   PÁGINAS: PEDIDO DE MARCAÇÃO DE CONSULTA E DE RENOVAÇÃO DE RECEITUÁRIO
+   O pedido é enviado por e-mail (EmailJS) para AUTH_CONFIG.emailPedidos.
+   ===================================================================== */
+const SEM_MEDICO = "Não tenho médico de família";
+const NAO_SEI_MEDICO = "Não sei o nome do meu médico de família";
+const MAX_MEDICAMENTOS = 10;
+const ESPERA_ENTRE_PEDIDOS = 60 * 1000; // 1 minuto, para evitar envios repetidos
+
+const escapar = v => String(v ?? "").replace(/[&<>"']/g, ch =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+function opcoesMedico(select) {
+  select.innerHTML =
+    '<option value="" disabled selected>Escolha uma opção</option>' +
+    '<optgroup label="Médicos de família da USF Covelo">' +
+    EQUIPAS.map(([m]) => `<option>${m}</option>`).join("") + "</optgroup>" +
+    `<optgroup label="Outras opções"><option>${SEM_MEDICO}</option><option>${NAO_SEI_MEDICO}</option></optgroup>`;
 }
 
-function preencherFormularios(dados) {
-  if (typeof CONFIG === "undefined" || !CONFIG.preencherFormularios || !dados) return;
-  const cfg = CONFIG.preencherFormularios;
-  const marc = urlPreenchido(CONFIG.formsUrl, cfg.marcacao, dados);
-  const rec = urlPreenchido(CONFIG.receituarioUrl, cfg.receituario, dados);
-  document.querySelectorAll("a[data-forms]").forEach(a => a.href = marc);
-  document.querySelectorAll("a[data-receituario]").forEach(a => a.href = rec);
+async function enviarEmail(templateId, params) {
+  const ej = AUTH_CONFIG.emailjs;
+  const r = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ service_id: ej.serviceId, template_id: templateId, user_id: ej.publicKey, template_params: params })
+  });
+  if (!r.ok) throw new Error("Falha no envio (" + r.status + ")");
 }
 
-async function prepararFormulariosDoUtente(user) {
-  if (!user || !document.querySelector("a[data-forms],a[data-receituario]")) return;
+/* Tabela HTML organizada que vai no corpo do e-mail */
+function tabelaEmail(titulo, linhas, medicamentos) {
+  const td = 'style="padding:8px 12px;border-bottom:1px solid #e7e2d7;vertical-align:top"';
+  const th = 'style="padding:8px 12px;border-bottom:1px solid #e7e2d7;text-align:left;color:#5a6070;font-weight:600;white-space:nowrap;vertical-align:top"';
+  let h = `<h2 style="font-family:Georgia,serif;color:#16235e;margin:0 0 12px">${escapar(titulo)}</h2>` +
+    `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;min-width:420px">` +
+    linhas.map(([k, v]) => `<tr><th ${th}>${escapar(k)}</th><td ${td}>${escapar(v)}</td></tr>`).join("") + "</table>";
+  if (medicamentos && medicamentos.length) {
+    h += `<h3 style="font-family:Georgia,serif;color:#16235e;margin:22px 0 8px">Medicação a renovar</h3>` +
+      `<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;min-width:420px">` +
+      `<tr><th ${th}>#</th><th ${th}>Medicamento</th><th ${th}>Dosagem</th><th ${th}>Quantidade</th></tr>` +
+      medicamentos.map((m, i) => `<tr><td ${td}>${i + 1}</td><td ${td}>${escapar(m.nome)}</td><td ${td}>${escapar(m.dosagem)}</td><td ${td}>${escapar(m.quantidade)}</td></tr>`).join("") +
+      "</table>";
+  }
+  return h;
+}
+
+/* Versão em texto simples (para o resumo e para o modelo sem HTML) */
+function textoEmail(titulo, linhas, medicamentos) {
+  let t = titulo + "\n\n" + linhas.map(([k, v]) => `${k}: ${v}`).join("\n");
+  if (medicamentos && medicamentos.length)
+    t += "\n\nMedicação a renovar:\n" + medicamentos.map((m, i) => `${i + 1}. ${m.nome} — ${m.dosagem} — quantidade: ${m.quantidade}`).join("\n");
+  return t;
+}
+
+function linhaMedicamento(n) {
+  const d = document.createElement("div");
+  d.className = "medicamento";
+  d.innerHTML = `
+    <div class="medicamento-cab"><b>Medicamento ${n}</b>${n > 1 ? '<button type="button" class="remover">Remover</button>' : ""}</div>
+    <div class="tres">
+      <label>Nome do medicamento *<input name="med_nome" required placeholder="Ex.: Metformina"></label>
+      <label>Dosagem *<input name="med_dosagem" required placeholder="Ex.: 500 mg"></label>
+      <label>Quantidade *<input name="med_quantidade" required placeholder="Ex.: 2 embalagens"></label>
+    </div>`;
+  return d;
+}
+
+function renumerarMedicamentos(lista) {
+  lista.querySelectorAll(".medicamento").forEach((m, i) => m.querySelector(".medicamento-cab b").textContent = "Medicamento " + (i + 1));
+}
+
+async function preencherComPerfil(form) {
+  if (!auth) return;
+  const u = await new Promise(res => { const off = fa.onAuthStateChanged(auth, x => { off(); res(x); }); });
+  if (!u) return;
   try {
-    const s = await fs.getDoc(fs.doc(db, "utentes", user.uid));
-    if (s.exists()) preencherFormularios(s.data());
-  } catch (_) { /* sem dados: os formulários abrem vazios */ }
+    const s = await fs.getDoc(fs.doc(db, "utentes", u.uid));
+    if (!s.exists()) return;
+    const p = s.data();
+    if (!form.nome.value) form.nome.value = p.nomeCompleto || "";
+    if (!form.numeroUtente.value) form.numeroUtente.value = p.numeroUtente || "";
+    if (p.medicoFamilia && !form.medicoFamilia.value) form.medicoFamilia.value = p.medicoFamilia;
+    form.dataset.email = p.email || "";
+    const nota = document.getElementById("nota-sessao");
+    if (nota) nota.hidden = false;
+  } catch (_) { /* sem dados do perfil: o utente preenche à mão */ }
+}
+
+function paginaPedido(pagina) {
+  const receituario = pagina === "pedido-receituario";
+  const form = document.getElementById("form-pedido");
+  const msg = document.getElementById("msg-pedido");
+  const ej = AUTH_CONFIG.emailjs;
+  opcoesMedico(form.medicoFamilia);
+
+  if (!ej.serviceId || !ej.publicKey || !ej.templatePedidos) {
+    const aviso = document.createElement("div");
+    aviso.className = "msg aviso-cfg";
+    aviso.innerHTML = "<b>Formulário em configuração.</b> Por agora, faça o pedido por telefone: <a href=\"tel:+351225574810\">22 557 4810</a>.";
+    form.before(aviso);
+    form.querySelectorAll("input,button,select").forEach(i => i.disabled = true);
+    return;
+  }
+
+  // Lista de medicamentos (só no receituário)
+  const lista = document.getElementById("lista-medicamentos");
+  const botaoMais = document.getElementById("mais-medicamento");
+  if (receituario) {
+    lista.appendChild(linhaMedicamento(1));
+    botaoMais.addEventListener("click", () => {
+      const n = lista.querySelectorAll(".medicamento").length;
+      if (n >= MAX_MEDICAMENTOS) return mostrar(msg, `Pode pedir até ${MAX_MEDICAMENTOS} medicamentos de cada vez.`);
+      const nova = linhaMedicamento(n + 1);
+      lista.appendChild(nova);
+      nova.querySelector("input").focus();
+    });
+    lista.addEventListener("click", ev => {
+      if (!ev.target.classList.contains("remover")) return;
+      ev.target.closest(".medicamento").remove();
+      renumerarMedicamentos(lista);
+    });
+  }
+
+  preencherComPerfil(form);
+
+  form.addEventListener("submit", async ev => {
+    ev.preventDefault();
+    mostrar(msg, "");
+    if (form.website.value) return; // campo escondido: só os robôs o preenchem
+
+    const nome = form.nome.value.trim().replace(/\s+/g, " ");
+    const numeroUtente = soDigitos(form.numeroUtente.value);
+    const medico = form.medicoFamilia.value;
+    let medicamentos = [];
+    if (receituario) {
+      medicamentos = [...lista.querySelectorAll(".medicamento")].map(m => ({
+        nome: m.querySelector('[name="med_nome"]').value.trim(),
+        dosagem: m.querySelector('[name="med_dosagem"]').value.trim(),
+        quantidade: m.querySelector('[name="med_quantidade"]').value.trim()
+      }));
+    }
+
+    let erro = "";
+    if (nome.split(" ").length < 2) erro = "Indique o nome completo (nome e apelido).";
+    else if (!utenteValido(numeroUtente)) erro = "O n.º de utente deve ter exatamente 9 dígitos.";
+    else if (!medico) erro = "Escolha o seu médico de família (ou uma das outras opções).";
+    else if (receituario && !medicamentos.length) erro = "Indique pelo menos um medicamento.";
+    else if (receituario) {
+      const i = medicamentos.findIndex(m => !m.nome || !m.dosagem || !m.quantidade);
+      if (i >= 0) erro = `Preencha o nome, a dosagem e a quantidade do medicamento ${i + 1}.`;
+    }
+    if (erro) return mostrar(msg, erro);
+
+    const chave = "ultimoPedido_" + pagina;
+    let ultimo = 0;
+    try { ultimo = Number(localStorage.getItem(chave)) || 0; } catch (_) {}
+    if (Date.now() - ultimo < ESPERA_ENTRE_PEDIDOS)
+      return mostrar(msg, "Acabou de enviar um pedido. Aguarde um minuto antes de enviar outro.");
+
+    const titulo = receituario ? "Pedido de renovação de receituário" : "Pedido de marcação de consulta";
+    const data = new Date().toLocaleString("pt-PT");
+    const linhas = [
+      ["Nome", nome],
+      ["N.º de utente", numeroUtente],
+      ["Médico de família", medico],
+      ["Data do pedido", data]
+    ];
+    if (form.dataset.email) linhas.push(["Conta no site", form.dataset.email]);
+
+    bloquear(form, true, "A enviar…");
+    try {
+      await enviarEmail(ej.templatePedidos, {
+        para: AUTH_CONFIG.emailPedidos,
+        assunto: `${titulo} — ${nome}`,
+        tipo: titulo,
+        nome, numero_utente: numeroUtente, medico, data,
+        medicamentos: medicamentos.map((m, i) => `${i + 1}. ${m.nome} — ${m.dosagem} — ${m.quantidade}`).join("\n"),
+        mensagem_html: tabelaEmail(titulo, linhas, medicamentos),
+        mensagem: textoEmail(titulo, linhas, medicamentos)
+      });
+      try { localStorage.setItem(chave, String(Date.now())); } catch (_) {}
+      document.getElementById("pedido-enviado").hidden = false;
+      document.getElementById("pedido-resumo").textContent = textoEmail(titulo, linhas.filter(l => l[0] !== "Conta no site"), medicamentos);
+      form.hidden = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      console.error(e);
+      mostrar(msg, "Não foi possível enviar o pedido. Verifique a ligação à internet e tente de novo, ou ligue para o 22 557 4810.");
+    }
+    bloquear(form, false);
+  });
+
+  document.getElementById("novo-pedido").addEventListener("click", () => location.reload());
 }
 
 /* =====================================================================
@@ -480,13 +623,11 @@ async function prepararFormulariosDoUtente(user) {
   try { await iniciarFirebase(); }
   catch (e) { console.error("Não foi possível carregar o Firebase:", e); }
 
-  if (auth) fa.onAuthStateChanged(auth, u => {
-    atualizarCabecalho(u);
-    if (document.body.dataset.pagina !== "perfil") prepararFormulariosDoUtente(u);
-  });
+  if (auth) fa.onAuthStateChanged(auth, atualizarCabecalho);
 
   const pagina = document.body.dataset.pagina;
   if (pagina === "entrar") paginaEntrar();
   else if (pagina === "registar") paginaRegistar();
   else if (pagina === "perfil") paginaPerfil();
+  else if (pagina === "pedido-consulta" || pagina === "pedido-receituario") paginaPedido(pagina);
 })();

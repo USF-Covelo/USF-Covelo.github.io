@@ -1,8 +1,8 @@
 # Autenticação de utentes — como pôr a funcionar
 
-O site é composto por páginas estáticas, por isso as contas ficam guardadas num serviço externo gratuito, o **Firebase** (Google). O aviso por e-mail de cada nova conta é enviado através do **EmailJS**. Todos os dados a preencher estão no topo do ficheiro `conta.js`.
+O site é composto por páginas estáticas, por isso as contas ficam guardadas num serviço externo gratuito, o **Firebase** (Google). O aviso por e-mail de cada nova conta é enviado através do **EmailJS**. Todos os códigos a preencher estão no ficheiro `configuracao-conta.js` (assim não se perdem quando o `conta.js` for atualizado).
 
-Ficheiros novos: `entrar.html`, `registar.html`, `perfil.html`, `conta.js`, `firestore.rules`.
+Ficheiros novos: `entrar.html`, `registar.html`, `perfil.html`, `conta.js`, `configuracao-conta.js`, `firestore.rules`, `marcar-consulta.html`, `renovar-receituario.html`.
 
 ---
 
@@ -13,7 +13,7 @@ Ficheiros novos: `entrar.html`, `registar.html`, `perfil.html`, `conta.js`, `fir
 3. **Authentication** → *Definições* → *Domínios autorizados* → adicione o domínio onde o site vai estar (ex.: `usfcovelo.pt` ou `utilizador.github.io`). `localhost` já vem incluído.
 4. **Firestore Database** → *Criar base de dados* → localização **europe-west** (dados na UE, importante para o RGPD) → modo de produção.
 5. Em **Firestore → Regras**, apague o que lá está, cole o conteúdo do ficheiro `firestore.rules` e clique em **Publicar**.
-6. **Definições do projeto** (roda dentada) → *As suas apps* → ícone **Web `</>`** → registe a app. Copie `apiKey`, `authDomain`, `projectId` e `appId` para o bloco `firebase` em `conta.js`.
+6. **Definições do projeto** (roda dentada) → *As suas apps* → ícone **Web `</>`** → registe a app. Copie `apiKey`, `authDomain`, `projectId` e `appId` para o bloco `firebase` em `configuracao-conta.js`.
 
 > A `apiKey` do Firebase não é secreta — pode estar no site. Quem protege os dados são as regras do passo 5.
 
@@ -36,7 +36,7 @@ Ficheiros novos: `entrar.html`, `registar.html`, `perfil.html`, `conta.js`, `fir
      ```
    Guarde e copie o **Template ID**.
 4. *Account* → copie a **Public Key**.
-5. Cole os três valores no bloco `emailjs` em `conta.js`. O destinatário (`carolinaapinto2006@gmail.com`) está em `emailNotificacao`.
+5. Cole os três valores no bloco `emailjs` em `configuracao-conta.js` (`serviceId`, `templateId` e `publicKey`). O destinatário (`carolinaapinto2006@gmail.com`) está em `emailNotificacao`.
 6. Recomendado: em *Account → Security*, limite os pedidos ao domínio do site.
 
 Por proteção de dados, o e-mail **não inclui** a morada nem o NIF; esses ficam só na base de dados (Firebase → Firestore → coleção `utentes`).
@@ -59,7 +59,7 @@ O botão já existe nas páginas *Entrar* e *Criar conta*, mas mostra "disponív
 - Exige um servidor próprio (a ligação usa SAML/OAuth com certificados) — não funciona apenas com páginas estáticas e Firebase.
 - Informação: https://www.autenticacao.gov.pt → *Fornecedores de serviços*.
 
-Quando houver um endereço de entrada fornecido pela integração, basta colocar em `conta.js`:
+Quando houver um endereço de entrada fornecido pela integração, basta colocar em `configuracao-conta.js`:
 ```js
 chaveMovelDigital: { ativo: true, url: "https://…" }
 ```
@@ -77,13 +77,26 @@ chaveMovelDigital: { ativo: true, url: "https://…" }
 - A lista de equipas está no topo de `conta.js` (`EQUIPAS`). Se a equipa mudar, altere lá e na página `quem-somos.html`.
 - As regras do Firestore foram atualizadas para aceitar este campo: **volte a colar `firestore.rules` em Firestore → Regras e clique em Publicar.**
 
-### Pré-preencher os formulários Google (opcional)
+## 7. Pedidos de marcação de consulta e de renovação de receituário
 
-Quando o utente tem sessão iniciada, os botões *Marcar consulta* e *Renovar receituário* podem abrir o formulário já com o nome, n.º de utente, telemóvel e médico de família preenchidos:
+As páginas `marcar-consulta.html` e `renovar-receituario.html` têm os formulários dentro do próprio site. Cada pedido é enviado por e-mail para o endereço em `emailPedidos` (em `configuracao-conta.js`), com os dados organizados numa tabela. Se o utente tiver sessão iniciada, o nome, o n.º de utente e o médico de família já aparecem preenchidos.
 
-1. Abra o formulário no Google Forms (modo de edição) → menu **⋮** → **Obter link pré-preenchido**.
-2. Escreva qualquer coisa em cada pergunta (ex.: "NOME", "UTENTE", "TELEMOVEL") e clique **Obter link** → **Copiar link**.
-3. No link copiado aparecem pedaços como `entry.123456789=NOME`. O número `entry.123456789` é o identificador dessa pergunta.
-4. Cole cada identificador no sítio certo em `site.js` → `preencherFormularios` (bloco `marcacao` para o formulário de consultas, `receituario` para o de receituário).
+Para funcionar, crie **um segundo modelo** no EmailJS (serve para os dois tipos de pedido):
 
-Se a pergunta do médico for de **escolha múltipla**, as opções no formulário têm de estar escritas exatamente como na lista `EQUIPAS` (ex.: `Dr.ª Joana Moreira`).
+1. *Email Templates* → *Create New Template*:
+   - **To Email:** `{{para}}`
+   - **Subject:** `{{assunto}}`
+   - **Content:** clique em **Edit Content → Code Editor** e escreva só isto (com **três** chavetas):
+     ```
+     {{{mensagem_html}}}
+     ```
+   - Guarde e copie o **Template ID**.
+2. Cole-o em `configuracao-conta.js`, no campo `templatePedidos`.
+3. Faça um pedido de teste em cada página e confirme que o e-mail chega.
+
+Enquanto `templatePedidos` estiver vazio, as páginas mostram "Formulário em configuração" e indicam o telefone.
+
+Notas:
+- O plano gratuito do EmailJS tem um limite de e-mails por mês (avisos de conta + pedidos). Se a USF começar a receber muitos pedidos, pode ser preciso um plano pago.
+- Recomenda-se ativar em *Account → Security* a restrição ao domínio do site e, se possível, o reCAPTCHA, para evitar envios automáticos.
+- Estes e-mails contêm dados de saúde (medicação). Antes de abrir os formulários ao público, o destino deve ser um e-mail institucional da USF e a solução deve ser validada pelo Encarregado de Proteção de Dados da ULS.

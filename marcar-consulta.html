@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pedido de marcação de consulta · USF Covelo</title><link rel="icon" href="favicon.png"><link rel="stylesheet" href="style.css"></head><body data-pagina="pedido-consulta">
+<div id="cabecalho"></div>
+<div class="page-title"><div class="wrap"><h1>Pedido de marcação de consulta</h1></div></div>
+<main class="wrap"><section>
+  <div class="card form-card largo">
+
+    <div id="pedido-enviado" class="pedido-ok" hidden>
+      <div class="visto" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+      <h2>Pedido enviado</h2>
+      <p class="sub">Recebemos o seu pedido. O secretariado da USF Covelo vai tratá-lo e, se for preciso, entra em contacto consigo.</p>
+      <pre id="pedido-resumo" class="resumo"></pre>
+      <button type="button" id="novo-pedido" class="btn-sec">Fazer outro pedido</button>
+    </div>
+
+    <form id="form-pedido" class="form" novalidate>
+      <p class="sub" style="margin-bottom:6px">Preencha os dados abaixo e envie o pedido. O secretariado clínico trata da marcação com o seu médico de família. Os campos com * são obrigatórios.</p>
+      <p id="nota-sessao" class="msg ok" hidden>Preenchemos alguns campos com os dados do seu perfil. Confirme se estão corretos.</p>
+
+      <fieldset><legend>Os seus dados</legend>
+        <label>Nome completo *
+          <input name="nome" autocomplete="name" required></label>
+        <div class="duas">
+          <label>N.º de utente (SNS) *
+            <input name="numeroUtente" inputmode="numeric" maxlength="11" placeholder="9 dígitos" required>
+            <small>Encontra-o no cartão de cidadão, no verso.</small></label>
+          <label>Médico de família *
+            <select name="medicoFamilia" required></select></label>
+        </div>
+      </fieldset>
+
+      <!-- campo escondido contra envios automáticos (não remover) -->
+      <label class="armadilha" aria-hidden="true">Não preencher<input name="website" tabindex="-1" autocomplete="off"></label>
+
+      <div id="msg-pedido" class="msg" hidden role="alert"></div>
+      <button type="submit" class="btn-p">Enviar pedido</button>
+      <p class="links" style="font-size:.85rem">Os dados deste formulário são usados apenas para tratar o seu pedido. Se preferir, pode fazê-lo por telefone: <a href="tel:+351225574810">22 557 4810</a>.</p>
+    </form>
+  </div>
+</section></main>
+<div id="rodape"></div>
+<script src="site.js"></script></body></html>

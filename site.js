@@ -4,20 +4,9 @@ const CONFIG = {
   telefone: "22 557 4810",
   telefoneLink: "+351225574810",
   email: "usf.covelo@ulssjoao.min-saude.pt",
-  // Cole aqui o link do Google Forms (ver instruções). Ao clicar no e-mail abre este formulário.
-  formsUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdd0mE9YW1XXScdZXlky5ZgLWJHU4BGEmoLNpqNfzEsUyZNjw/viewform?usp=dialog",
   morada: "Rua Faria Guimarães, 915-931",
   codigoPostal: "4200 Porto",
-  horario: "Segunda a sexta, 08h00 – 20h00",
-  // Formulário de renovação de receituário (medicação crónica)
-  receituarioUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe_9OoWTy9WyTvMEp7irn56d8rA1CrpRn_MiJuNseQltNwzBQ/viewform?usp=publish-editor",
-
-  // OPCIONAL: preencher automaticamente os formulários Google com os dados de quem tem sessão iniciada.
-  // Para cada formulário, escreva o número "entry.…" de cada pergunta (ver instruções). Vazio = não preenche.
-  preencherFormularios: {
-    marcacao:    { nome: "", numeroUtente: "", medicoFamilia: "", telemovel: "" },
-    receituario: { nome: "", numeroUtente: "", medicoFamilia: "", telemovel: "" }
-  }
+  horario: "Segunda a sexta, 08h00 – 20h00"
 };
 
 /* ===== MENU (EDITAR AQUI: nome do separador e ficheiro) ===== */
@@ -113,14 +102,9 @@ document.getElementById("rodape").innerHTML = `
   <img src="${IMG.parceiros}" alt="USF Covelo · ULS São João · Cuidados de Saúde Primários · República Portuguesa – Saúde · SNS – Serviço Nacional de Saúde">
 </div></div>`;
 
-/* Liga todos os links de e-mail marcados com data-forms ao Google Forms */
-document.querySelectorAll("a[data-forms]").forEach(a => {
-  a.href = CONFIG.formsUrl; a.target = "_blank"; a.rel = "noopener";
-});
-/* Liga os links marcados com data-receituario ao formulário de renovação de receituário */
-document.querySelectorAll("a[data-receituario]").forEach(a => {
-  a.href = CONFIG.receituarioUrl; a.target = "_blank"; a.rel = "noopener";
-});
+/* Liga os botões de pedidos às páginas de formulário do próprio site */
+document.querySelectorAll("a[data-forms]").forEach(a => { a.href = "marcar-consulta.html"; a.removeAttribute("target"); });
+document.querySelectorAll("a[data-receituario]").forEach(a => { a.href = "renovar-receituario.html"; a.removeAttribute("target"); });
 
 /* Ícone do separador e logótipos colocados diretamente nas páginas */
 document.querySelectorAll('link[rel="icon"]').forEach(l => l.remove());

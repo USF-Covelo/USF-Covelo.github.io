@@ -279,3 +279,20 @@ a.forma:hover{border-color:var(--verde)}
 .acoes-perfil{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
 @media(max-width:560px){.acoes-perfil{grid-template-columns:1fr}}
 .form select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--verde) 50%),linear-gradient(135deg,var(--verde) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+
+/* ===== Pedidos (marcação de consulta e receituário) ===== */
+.form textarea{font:inherit}
+.armadilha{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lista-medicamentos{display:flex;flex-direction:column;gap:12px}
+.medicamento{border:1px solid var(--bd);border-radius:12px;padding:14px 16px;background:#fcfbf8}
+.medicamento-cab{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.medicamento-cab b{color:var(--azul);font-size:.95rem}
+.medicamento .remover{background:none;border:0;color:#a33;font:inherit;font-size:.86rem;cursor:pointer;text-decoration:underline}
+.form .tres{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+@media(max-width:640px){.form .tres{grid-template-columns:1fr}}
+.btn-sec.mais{align-self:flex-start}
+.pedido-ok{text-align:center;padding:10px 0}
+.pedido-ok .visto{width:64px;height:64px;border-radius:50%;background:var(--verde-claro);color:var(--verde);display:grid;place-items:center;margin:0 auto 14px}
+.pedido-ok .visto .ico{width:32px;height:32px;stroke-width:2.4}
+.pedido-ok .sub{margin:0 auto 18px}
+.resumo{text-align:left;white-space:pre-wrap;font-family:var(--sans);font-size:.92rem;background:#fcfbf8;border:1px solid var(--bd);border-radius:12px;padding:16px 18px;color:var(--tx);margin:0 0 20px}
