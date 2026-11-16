@@ -221,7 +221,7 @@ footer.site a:hover{text-decoration:underline}
 .btn-cmd:hover{background:#eef2fb}
 .separador{display:flex;align-items:center;gap:12px;color:var(--soft);font-size:.85rem;margin:18px 0}
 .separador:before,.separador:after{content:"";flex:1;height:1px;background:var(--bd)}
-.msg{padding:11px 14px;border-radius:9px;font-size:.92rem;margin:0 0 12px}
+.msg{padding:11px 14px;border-radius:9px;font-size:.92rem;margin:0 0 12px;white-space:pre-line}
 .msg.erro{background:#fdecec;color:#8a1c1c;border:1px solid #f2b8b8}
 .msg.ok{background:#e9f5e3;color:#24561a;border:1px solid #b9dcaa}
 .msg.info,.msg.aviso-cfg{background:var(--aviso);color:var(--tx);border:1px solid var(--aviso-bd)}

@@ -23,8 +23,8 @@
           <input name="nome" autocomplete="name" required></label>
         <div class="duas">
           <label>N.º de utente (SNS) *
-            <input name="numeroUtente" inputmode="numeric" maxlength="11" placeholder="9 dígitos" required>
-            <small>Encontra-o no cartão de cidadão, no verso.</small></label>
+            <input name="numeroUtente" inputmode="numeric" pattern="[0-9]{9}" placeholder="9 dígitos" required>
+            <small>9 algarismos, sem espaços. Encontra-o no verso do cartão de cidadão.</small></label>
           <label>Médico de família *
             <select name="medicoFamilia" required></select></label>
         </div>

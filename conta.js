@@ -447,7 +447,12 @@ async function enviarEmail(templateId, params) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ service_id: ej.serviceId, template_id: templateId, user_id: ej.publicKey, template_params: params })
   });
-  if (!r.ok) throw new Error("Falha no envio (" + r.status + ")");
+  if (!r.ok) {
+    const detalhe = (await r.text().catch(() => "")).slice(0, 200);
+    const e = new Error("EmailJS " + r.status + (detalhe ? " – " + detalhe : ""));
+    e.emailjs = true;
+    throw e;
+  }
 }
 
 /* Tabela HTML organizada que vai no corpo do e-mail */
@@ -544,6 +549,12 @@ function paginaPedido(pagina) {
     });
   }
 
+  // N.º de utente: aceita só algarismos e no máximo 9 (espaços ou outros caracteres colados são retirados)
+  form.numeroUtente.addEventListener("input", () => {
+    const limpo = soDigitos(form.numeroUtente.value).slice(0, 9);
+    if (form.numeroUtente.value !== limpo) form.numeroUtente.value = limpo;
+  });
+
   preencherComPerfil(form);
 
   form.addEventListener("submit", async ev => {
@@ -608,7 +619,8 @@ function paginaPedido(pagina) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
       console.error(e);
-      mostrar(msg, "Não foi possível enviar o pedido. Verifique a ligação à internet e tente de novo, ou ligue para o 22 557 4810.");
+      mostrar(msg, "Não foi possível enviar o pedido. Tente de novo dentro de momentos ou ligue para o 22 557 4810." +
+        "\n\nDetalhe técnico: " + (e.emailjs ? e.message : "sem resposta do serviço de e-mail (" + e.message + ")"));
     }
     bloquear(form, false);
   });
