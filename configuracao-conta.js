@@ -17,7 +17,7 @@ export const AUTH_CONFIG = {
     serviceId: "service_f7t4uda",
     publicKey: "a1B2c3D4e5",
     templateId: "template_d72ylty",         // modelo do aviso de nova conta
-    templatePedidos: "6Wo-BY8za-3kxrnhF"     // modelo dos pedidos de consulta e de receituário
+    templatePedidos: "template_lutijtl"     // modelo dos pedidos de consulta e de receituário
   },
 
   // Para onde vai o aviso sempre que alguém cria conta
