@@ -15,7 +15,7 @@ export const AUTH_CONFIG = {
   // Dados da conta EmailJS (https://www.emailjs.com)
   emailjs: {
     serviceId: "service_f7t4uda",
-    publicKey: "a1B2c3D4e5F6g7H8i",
+    publicKey: "6Wo-BY8za-3kxrnhF",
     templateId: "template_d72ylty",         // modelo do aviso de nova conta
     templatePedidos: "template_lutijtl"     // modelo dos pedidos de consulta e de receituário
   },
