@@ -118,3 +118,10 @@ As imagens e os vídeos ficam no repositório, ao lado das páginas. O GitHub s�
 O site abre sempre em português. O utente pode escolher inglês, espanhol, francês ou árabe no seletor ao lado do menu; a escolha mantém-se enquanto o separador estiver aberto.
 
 As traduções estão nos ficheiros `lingua-en.js`, `lingua-es.js`, `lingua-fr.js` e `lingua-ar.js`, no formato `"texto em português": "tradução"`. **Quando mudar um texto do site em português, tem de mudar também a frase correspondente em cada um destes ficheiros**; se não o fizer, esse texto aparece em português nas outras línguas. Os pedidos enviados por e-mail chegam sempre em português, seja qual for a língua escolhida.
+
+## 11. Pedidos com sessão iniciada (atualização de 18/11)
+
+- Com sessão iniciada, o pedido usa o **nome da ficha do utente**: o campo "Nome" fica escondido e o utente só confirma o n.º de utente (já preenchido) e o médico de família (o recomendado aparece já escolhido). Se escrever um n.º de utente diferente do da conta (por exemplo, para um familiar), o campo "Nome" volta a aparecer e é obrigatório.
+- **Marcação de consulta:** tem um campo opcional "Tipo de consulta", com as consultas da página inicial. No e-mail aparece "Tipo de consulta" (ou "Não indicado").
+- **Renovação de medicação crónica:** o utente tem de escolher pelo menos uma forma de receber as receitas (SMS, e-mail ou papel). No e-mail aparece "Envio das receitas".
+- O modelo do EmailJS não precisa de ser alterado: estes dados já vão dentro de `{{{mensagem_html}}}`.

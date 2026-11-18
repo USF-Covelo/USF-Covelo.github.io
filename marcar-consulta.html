@@ -16,11 +16,13 @@
 
     <form id="form-pedido" class="form" novalidate>
       <p class="sub" style="margin-bottom:6px">Preencha os dados abaixo e envie o pedido. O secretariado clínico trata da marcação com o seu médico de família. Os campos com * são obrigatórios.</p>
-      <p id="nota-sessao" class="msg ok" hidden>Preenchemos alguns campos com os dados do seu perfil. Confirme se estão corretos.</p>
+      <p id="nota-sessao" class="msg ok" hidden>Tem sessão iniciada: só precisa de confirmar o n.º de utente e o médico de família.</p>
 
       <fieldset><legend>Os seus dados</legend>
-        <label>Nome completo *
-          <input name="nome" autocomplete="name" required></label>
+        <p id="em-nome-de" class="em-nome" hidden>Pedido em nome de <b id="nome-conta" data-nao-traduzir></b>, com os dados da sua conta.</p>
+        <label id="campo-nome">Nome completo *
+          <input name="nome" autocomplete="name" required>
+          <small id="nota-nome" hidden>Este n.º de utente não é o da sua conta. Indique o nome do utente para quem é o pedido.</small></label>
         <div class="duas">
           <label>N.º de utente (SNS) *
             <input name="numeroUtente" inputmode="numeric" pattern="[0-9]{9}" placeholder="9 dígitos" required>
@@ -29,6 +31,23 @@
             <select name="medicoFamilia" required></select>
             <small id="nota-medico" class="nota-medico" hidden></small></label>
         </div>
+      </fieldset>
+
+      <fieldset><legend>Tipo de consulta <small>(opcional)</small></legend>
+        <label>Que consulta pretende?
+          <select name="tipoConsulta">
+            <option value="">Não sei / prefiro não indicar</option>
+            <option value="Saúde Infantil e Juvenil">Saúde Infantil e Juvenil</option>
+            <option value="Planeamento Familiar e Saúde da Mulher">Planeamento Familiar e Saúde da Mulher</option>
+            <option value="Saúde Materna">Saúde Materna</option>
+            <option value="Saúde de Adultos">Saúde de Adultos</option>
+            <option value="Diabetes e Hipertensão">Diabetes e Hipertensão</option>
+            <option value="Vigilância Oncológica">Vigilância Oncológica</option>
+            <option value="Consulta Aberta">Consulta Aberta</option>
+            <option value="Visita Domiciliária">Visita Domiciliária</option>
+            <option value="Atestado para a Carta de Condução">Atestado para a Carta de Condução</option>
+          </select>
+          <small>Pode ver o que é cada consulta em <a href="index.html#consultas">O que oferecemos</a>.</small></label>
       </fieldset>
 
       <!-- campo escondido contra envios automáticos (não remover) -->

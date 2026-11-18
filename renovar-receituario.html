@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Renovação de receituário · USF Covelo</title><link rel="icon" href="favicon.png"><link rel="stylesheet" href="style.css"></head><body data-pagina="pedido-receituario">
+<title>Renovação de medicação crónica · USF Covelo</title><link rel="icon" href="favicon.png"><link rel="stylesheet" href="style.css"></head><body data-pagina="pedido-receituario">
 <div id="cabecalho"></div>
-<div class="page-title"><div class="wrap"><h1>Renovação de receituário</h1></div></div>
+<div class="page-title"><div class="wrap"><h1>Renovação de medicação crónica</h1></div></div>
 <main class="wrap"><section>
   <div class="card form-card largo">
 
@@ -16,11 +16,13 @@
 
     <form id="form-pedido" class="form" novalidate>
       <p class="sub" style="margin-bottom:6px">Para pedir a renovação da sua medicação crónica, indique os seus dados e os medicamentos que precisa de renovar. Os campos com * são obrigatórios.</p>
-      <p id="nota-sessao" class="msg ok" hidden>Preenchemos alguns campos com os dados do seu perfil. Confirme se estão corretos.</p>
+      <p id="nota-sessao" class="msg ok" hidden>Tem sessão iniciada: só precisa de confirmar o n.º de utente e o médico de família.</p>
 
       <fieldset><legend>Os seus dados</legend>
-        <label>Nome completo *
-          <input name="nome" autocomplete="name" required></label>
+        <p id="em-nome-de" class="em-nome" hidden>Pedido em nome de <b id="nome-conta" data-nao-traduzir></b>, com os dados da sua conta.</p>
+        <label id="campo-nome">Nome completo *
+          <input name="nome" autocomplete="name" required>
+          <small id="nota-nome" hidden>Este n.º de utente não é o da sua conta. Indique o nome do utente para quem é o pedido.</small></label>
         <div class="duas">
           <label>N.º de utente (SNS) *
             <input name="numeroUtente" inputmode="numeric" pattern="[0-9]{9}" placeholder="9 dígitos" required>
@@ -35,6 +37,13 @@
         <p class="links" style="margin:-4px 0 0">Escreva o nome, a dosagem e a quantidade tal como aparecem na sua receita ou na embalagem.</p>
         <div id="lista-medicamentos" class="lista-medicamentos"></div>
         <button type="button" id="mais-medicamento" class="btn-sec mais">+ Acrescentar outro medicamento</button>
+      </fieldset>
+
+      <fieldset class="opcoes-envio"><legend>Como quer receber as receitas? *</legend>
+        <p class="links" style="margin:-4px 0 0">Escolha uma ou mais opções.</p>
+        <label class="check"><input type="checkbox" name="envio" value="SMS"> <span>Por SMS</span></label>
+        <label class="check"><input type="checkbox" name="envio" value="E-mail"> <span>Por e-mail</span></label>
+        <label class="check"><input type="checkbox" name="envio" value="Papel"> <span>Em papel</span></label>
       </fieldset>
 
       <!-- campo escondido contra envios automáticos (não remover) -->

@@ -23,7 +23,9 @@ const CONFIG = {
   email: "usf.covelo@ulssjoao.min-saude.pt",
   morada: "Rua Faria Guimarães, 915-931",
   codigoPostal: "4200 Porto",
-  horario: "Segunda a sexta, 08h00 – 20h00"
+  horario: "Segunda a sexta, 08h00 – 20h00",
+  // Livro de Reclamações e Elogios (página da Entidade Reguladora da Saúde)
+  livroReclamacoes: "https://www.ers.pt/pt/utentes/reclamacoes/"
 };
 
 /* ===== MENU (EDITAR AQUI: nome do separador e ficheiro) ===== */
@@ -51,6 +53,7 @@ const ICO = {
   relogio: '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   local: '<svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
   menu: '<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  livro: '<svg class="ico" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7M8 11h5"/></svg>',
   globo: '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>'
 };
 
@@ -128,6 +131,7 @@ document.getElementById("rodape").innerHTML = `
       <p class="rod-linha">${ICO.tel}<a href="tel:${CONFIG.telefoneLink}">${CONFIG.telefone}</a></p>
       <p class="rod-linha">${ICO.mail}<a href="mailto:${CONFIG.email}">${CONFIG.email}</a></p>
       <p class="rod-linha">${ICO.local}<span>${CONFIG.morada}<br>${CONFIG.codigoPostal}</span></p>
+      <p class="rod-linha">${ICO.livro}<a href="${CONFIG.livroReclamacoes}" target="_blank" rel="noopener">Livro de Reclamações e Elogios</a></p>
     </div>
     <div>
       <h4>Horário</h4>

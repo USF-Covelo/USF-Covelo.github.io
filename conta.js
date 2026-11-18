@@ -546,6 +546,17 @@ async function registarMedicoNoHistorico(uid, medico) {
   } catch (e) { console.warn("Não foi possível guardar o médico escolhido:", e); }
 }
 
+/* Mostra o campo "Nome" só quando é preciso: sem sessão, ou quando o n.º de utente
+   escrito não é o da conta (por exemplo, um pedido para um familiar) */
+function atualizarCampoNome(form) {
+  const temConta = !!form.dataset.nomeConta;
+  const mesmoUtente = temConta && soDigitos(form.numeroUtente.value) === form.dataset.utenteConta;
+  document.getElementById("campo-nome").hidden = mesmoUtente;
+  document.getElementById("em-nome-de").hidden = !mesmoUtente;
+  document.getElementById("nota-nome").hidden = !temConta || mesmoUtente;
+  form.nome.required = !mesmoUtente;
+}
+
 async function preencherComPerfil(form) {
   if (!auth) return;
   const u = await new Promise(res => { const off = fa.onAuthStateChanged(auth, x => { off(); res(x); }); });
@@ -554,8 +565,12 @@ async function preencherComPerfil(form) {
     const s = await fs.getDoc(fs.doc(db, "utentes", u.uid));
     if (!s.exists()) return;
     const p = s.data();
-    if (!form.nome.value) form.nome.value = p.nomeCompleto || "";
+    // Com sessão iniciada, o nome vem da ficha; o utente só confirma o n.º de utente
+    form.dataset.nomeConta = p.nomeCompleto || "";
+    form.dataset.utenteConta = p.numeroUtente || "";
     if (!form.numeroUtente.value) form.numeroUtente.value = p.numeroUtente || "";
+    document.getElementById("nome-conta").textContent = p.nomeCompleto || "";
+    atualizarCampoNome(form);
     const rec = medicoRecomendado(p);
     if (rec.medico && !form.medicoFamilia.value) {
       form.medicoFamilia.value = rec.medico;
@@ -590,7 +605,7 @@ function paginaPedido(pagina) {
     return;
   }
 
-  // Lista de medicamentos (só no receituário)
+  // Lista de medicamentos (só na renovação de medicação crónica)
   const lista = document.getElementById("lista-medicamentos");
   const botaoMais = document.getElementById("mais-medicamento");
   if (receituario) {
@@ -613,6 +628,7 @@ function paginaPedido(pagina) {
   form.numeroUtente.addEventListener("input", () => {
     const limpo = soDigitos(form.numeroUtente.value).slice(0, 9);
     if (form.numeroUtente.value !== limpo) form.numeroUtente.value = limpo;
+    atualizarCampoNome(form);
   });
 
   preencherComPerfil(form);
@@ -622,8 +638,11 @@ function paginaPedido(pagina) {
     mostrar(msg, "");
     if (form.website.value) return; // campo escondido: só os robôs o preenchem
 
-    const nome = form.nome.value.trim().replace(/\s+/g, " ");
     const numeroUtente = soDigitos(form.numeroUtente.value);
+    const usaConta = !!form.dataset.nomeConta && numeroUtente === form.dataset.utenteConta;
+    const nome = usaConta ? form.dataset.nomeConta : form.nome.value.trim().replace(/\s+/g, " ");
+    const tipoConsulta = form.tipoConsulta ? form.tipoConsulta.value : "";
+    const envio = receituario ? [...form.querySelectorAll('input[name="envio"]:checked')].map(i => i.value) : [];
     const medico = form.medicoFamilia.value;
     let medicamentos = [];
     if (receituario) {
@@ -639,10 +658,11 @@ function paginaPedido(pagina) {
     else if (!utenteValido(numeroUtente)) erro = "O n.º de utente deve ter exatamente 9 dígitos.";
     else if (!medico) erro = "Escolha o seu médico de família (ou uma das outras opções).";
     else if (receituario && !medicamentos.length) erro = "Indique pelo menos um medicamento.";
-    else if (receituario) {
+    else if (receituario && medicamentos.some(m => !m.nome || !m.dosagem || !m.quantidade)) {
       const i = medicamentos.findIndex(m => !m.nome || !m.dosagem || !m.quantidade);
-      if (i >= 0) erro = `Preencha o nome, a dosagem e a quantidade do medicamento ${i + 1}.`;
+      erro = `Preencha o nome, a dosagem e a quantidade do medicamento ${i + 1}.`;
     }
+    else if (receituario && !envio.length) erro = "Escolha pelo menos uma forma de receber as receitas (SMS, e-mail ou papel).";
     if (erro) return mostrar(msg, erro);
 
     const chave = "ultimoPedido_" + pagina;
@@ -651,14 +671,16 @@ function paginaPedido(pagina) {
     if (Date.now() - ultimo < ESPERA_ENTRE_PEDIDOS)
       return mostrar(msg, "Acabou de enviar um pedido. Aguarde um minuto antes de enviar outro.");
 
-    const titulo = receituario ? "Pedido de renovação de receituário" : "Pedido de marcação de consulta";
+    const titulo = receituario ? "Pedido de renovação de medicação crónica" : "Pedido de marcação de consulta";
     const data = new Date().toLocaleString("pt-PT");
     const linhas = [
       ["Nome", nome],
       ["N.º de utente", numeroUtente],
-      ["Médico de família", medico],
-      ["Data do pedido", data]
+      ["Médico de família", medico]
     ];
+    if (!receituario) linhas.push(["Tipo de consulta", tipoConsulta || "Não indicado"]);
+    if (receituario) linhas.push(["Envio das receitas", envio.map(v => v === "Papel" ? "Em papel" : v).join(", ")]);
+    linhas.push(["Data do pedido", data]);
     if (form.dataset.email) linhas.push(["Conta no site", form.dataset.email]);
 
     bloquear(form, true, "A enviar…");
@@ -668,6 +690,7 @@ function paginaPedido(pagina) {
         assunto: `${titulo} — ${nome}`,
         tipo: titulo,
         nome, numero_utente: numeroUtente, medico, data,
+        tipo_consulta: tipoConsulta, envio_receitas: envio.join(", "),
         medicamentos: medicamentos.map((m, i) => `${i + 1}. ${m.nome} — ${m.dosagem} — ${m.quantidade}`).join("\n"),
         mensagem_html: tabelaEmail(titulo, linhas, medicamentos),
         mensagem: textoEmail(titulo, linhas, medicamentos)

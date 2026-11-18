@@ -376,3 +376,29 @@ a[href^="tel:"],a[href^="mailto:"],.topbar span{unicode-bidi:isolate}
 .artigo-instagram iframe{width:100%;height:760px;border:1px solid var(--bd);border-radius:12px;background:#fff;display:block}
 .artigo-instagram figcaption{font-size:.88rem;color:var(--soft);margin-top:8px;text-align:center}
 @media(max-width:600px){.artigo-instagram iframe{height:640px}}
+
+/* ===== Mensagem de boas-vindas (página inicial) ===== */
+.boas-vindas{background:var(--bg);border-bottom:1px solid var(--bd)}
+.boas-vindas p{margin:0;padding:12px 0;text-align:center;font-family:var(--serif);font-size:1.02rem;color:var(--soft)}
+.boas-vindas b{color:var(--verde);font-weight:600}
+
+/* ===== O que não nos compete ===== */
+.nao-fazemos{list-style:none;padding:6px 24px;margin:0;background:#fff;border:1px solid var(--bd);border-radius:var(--raio);box-shadow:var(--sombra)}
+.nao-fazemos li{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #f1ede4;color:var(--soft);font-size:.98rem}
+.nao-fazemos li:last-child{border-bottom:0}
+.nao-fazemos li .ico{width:24px;height:24px;color:var(--terra);flex:none;margin-top:1px}
+.nao-fazemos b{color:var(--azul)}
+
+/* ===== Pedidos: nome da conta, tipo de consulta e envio das receitas ===== */
+.em-nome{background:var(--verde-claro);border-radius:10px;padding:10px 14px;margin:0;color:var(--tx);font-size:.95rem}
+.em-nome b{color:var(--azul)}
+.form legend small{font-family:var(--sans);font-weight:400;font-size:.85rem;color:var(--soft)}
+.opcoes-envio{gap:8px!important}
+.opcoes-envio label.check{font-size:.98rem;color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;background:#fff;align-items:center}
+.opcoes-envio label.check input{margin-top:0;width:18px;height:18px}
+.opcoes-envio label.check:has(input:checked){border-color:var(--verde);background:var(--verde-claro)}
+
+/* Elementos escondidos ficam sempre escondidos, mesmo com display definido noutra regra */
+[hidden]{display:none!important}
+
+.brand{flex:none}
