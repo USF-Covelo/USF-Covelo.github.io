@@ -130,3 +130,9 @@ As traduções estão nos ficheiros `lingua-en.js`, `lingua-es.js`, `lingua-fr.j
 
 - A página *Área do Utente* tem agora os **Direitos e Deveres** e **Os nossos compromissos**. Para alterar estes textos, edite `area-do-utente.html` e lembre-se de atualizar também as frases nos ficheiros `lingua-…`.
 - O **Livro de Reclamações e Elogios** está no rodapé, por baixo do Horário, com o símbolo; abre a página de reclamações da ERS (o endereço está em `site.js` → `livroReclamacoes`).
+
+## 13. E-mails ao secretariado (atualização de 19/11)
+
+- O aviso de **nova conta** passou a usar o mesmo modelo e o mesmo formato (tabela) dos pedidos: Nome, N.º de utente, Telemóvel, E-mail, Médico de família e Data de criação. Usa o modelo `templatePedidos`; o modelo antigo (`templateId`) só é usado se o dos pedidos estiver vazio.
+- Os pedidos de **marcação** e de **medicação crónica** incluem agora o **telemóvel** do utente. Com sessão iniciada, vem da ficha; sem sessão (ou se a ficha não tiver telemóvel), o utente tem de o escrever.
+- O tipo de consulta "Consulta Aberta" deixou de aparecer no pedido de marcação (é marcada por telefone, no próprio dia).

@@ -462,7 +462,15 @@ window.TRADUCAO = {
  "O Utente pode usar a Caixa de Sugestões, apresentar o caso diretamente ao Coordenador ou usar o Livro de Reclamações.": "Le patient peut utiliser la boîte à suggestions, s’adresser directement au coordinateur ou utiliser le livre des réclamations.",
  "A USF Covelo compromete-se a dar resposta, em tempo adequado, a todas as sugestões / reclamações apresentadas através da nossa Caixa de Sugestões, desde que identificadas.": "L’USF Covelo s’engage à répondre, dans un délai approprié, à toutes les suggestions / réclamations déposées dans notre boîte à suggestions, à condition qu’elles soient identifiées.",
  "Compromisso de Eficiência": "Engagement d’efficience",
- "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "Les médecins de famille de l’USF s’engagent à bien gérer la prescription de médicaments et d’examens complémentaires, sur la base de connaissances actualisées et de critères harmonisés selon des protocoles établis, afin de trouver un équilibre entre les besoins des patients et les ressources du Service national de santé."
+ "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "Les médecins de famille de l’USF s’engagent à bien gérer la prescription de médicaments et d’examens complémentaires, sur la base de connaissances actualisées et de critères harmonisés selon des protocoles établis, afin de trouver un équilibre entre les besoins des patients et les ressources du Service national de santé.",
+ "O que": "Ce qui",
+ "não": "ne relève pas",
+ "nos compete": "de nous",
+ "Enquadramento legal:": "Cadre légal :",
+ "Despacho n.º 12876-C/2024, de 29 de outubro": "Arrêté (Despacho) n° 12876-C/2024 du 29 octobre",
+ "(n.º 7).": "(point 7).",
+ "Os médicos da USF Covelo voltam ao Ribadouro para projeto de apoio à saúde do adolescente - GASA": "Les médecins de l’USF Covelo reviennent au Ribadouro pour un projet de soutien à la santé des adolescents – GASA",
+ "Para o secretariado o poder contactar sobre este pedido.": "Pour que le secrétariat puisse vous contacter au sujet de cette demande."
 },
  padroes: [
   [new RegExp("^Medicamento (\\d+)$"), "Médicament $1"],

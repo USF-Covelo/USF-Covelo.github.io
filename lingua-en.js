@@ -462,7 +462,15 @@ window.TRADUCAO = {
  "O Utente pode usar a Caixa de Sugestões, apresentar o caso diretamente ao Coordenador ou usar o Livro de Reclamações.": "Patients can use the Suggestions Box, raise the matter directly with the Coordinator or use the Complaints Book.",
  "A USF Covelo compromete-se a dar resposta, em tempo adequado, a todas as sugestões / reclamações apresentadas através da nossa Caixa de Sugestões, desde que identificadas.": "USF Covelo undertakes to reply, in good time, to all suggestions and complaints made through our Suggestions Box, provided they are identified.",
  "Compromisso de Eficiência": "Commitment to Efficiency",
- "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "The USF’s family doctors undertake to manage the prescription of medicines and diagnostic tests carefully, based on up-to-date knowledge and consistent criteria using established protocols, so as to balance patients’ needs with the resources of the National Health Service."
+ "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "The USF’s family doctors undertake to manage the prescription of medicines and diagnostic tests carefully, based on up-to-date knowledge and consistent criteria using established protocols, so as to balance patients’ needs with the resources of the National Health Service.",
+ "O que": "What we",
+ "não": "don’t",
+ "nos compete": "do",
+ "Enquadramento legal:": "Legal basis:",
+ "Despacho n.º 12876-C/2024, de 29 de outubro": "Order (Despacho) No. 12876-C/2024 of 29 October",
+ "(n.º 7).": "(point 7).",
+ "Os médicos da USF Covelo voltam ao Ribadouro para projeto de apoio à saúde do adolescente - GASA": "USF Covelo’s doctors return to Ribadouro for adolescent health support project – GASA",
+ "Para o secretariado o poder contactar sobre este pedido.": "So the front desk can contact you about this request."
 },
  padroes: [
   [new RegExp("^Medicamento (\\d+)$"), "Medicine $1"],

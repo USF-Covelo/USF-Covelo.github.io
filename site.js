@@ -11,7 +11,7 @@ const LINGUAS = [
 ];
 /* Versão dos ficheiros: mude este número sempre que atualizar o site,
    para os navegadores irem buscar os ficheiros novos (e não os antigos guardados). */
-const VERSAO = "20261119b";
+const VERSAO = "20261119c";
 let LINGUA = "pt-PT";
 try { LINGUA = sessionStorage.getItem("lingua") || "pt-PT"; } catch (_) {}
 if (!LINGUAS.some(l => l[0] === LINGUA)) LINGUA = "pt-PT";

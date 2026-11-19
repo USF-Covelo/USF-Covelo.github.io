@@ -21,7 +21,7 @@
 const NOTICIAS = [
   {
     id: "gasa-ribadouro",
-    titulo: "USF Covelo volta ao Ribadouro para projeto de apoio à saúde do adolescente - GASA",
+    titulo: "Os médicos da USF Covelo voltam ao Ribadouro para projeto de apoio à saúde do adolescente - GASA",
     data: "2026-11-16", // EDITAR: confirme a data
     capa: "noticia-gasa-capa.jpg",
     imagem: "noticia-gasa-logo.jpg",

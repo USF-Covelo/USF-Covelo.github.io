@@ -462,7 +462,15 @@ window.TRADUCAO = {
  "O Utente pode usar a Caixa de Sugestões, apresentar o caso diretamente ao Coordenador ou usar o Livro de Reclamações.": "يمكن للمريض استخدام صندوق الاقتراحات، أو عرض حالته مباشرة على المنسق، أو استخدام سجل الشكاوى.",
  "A USF Covelo compromete-se a dar resposta, em tempo adequado, a todas as sugestões / reclamações apresentadas através da nossa Caixa de Sugestões, desde que identificadas.": "تلتزم USF Covelo بالرد في الوقت المناسب على جميع الاقتراحات والشكاوى المقدمة عبر صندوق الاقتراحات، شرط أن تكون معرّفة بصاحبها.",
  "Compromisso de Eficiência": "الالتزام بالكفاءة",
- "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "يلتزم أطباء الأسرة في الوحدة بحسن إدارة وصف الأدوية والفحوصات التشخيصية التكميلية، استنادًا إلى المعرفة المحدّثة وتوحيد المعايير وفق بروتوكولات معتمدة، بما يحقق التوازن بين احتياجات المرضى وموارد الخدمة الوطنية للصحة."
+ "Os Médicos de Família da USF comprometem-se a fazer uma boa gestão da prescrição de medicamentos e exames complementares de diagnóstico, com base na atualização do conhecimento e na uniformização de critérios utilizando protocolos estabelecidos, permitindo assim alcançar um equilíbrio entre as necessidades dos utentes e os recursos do Serviço Nacional de Saúde.": "يلتزم أطباء الأسرة في الوحدة بحسن إدارة وصف الأدوية والفحوصات التشخيصية التكميلية، استنادًا إلى المعرفة المحدّثة وتوحيد المعايير وفق بروتوكولات معتمدة، بما يحقق التوازن بين احتياجات المرضى وموارد الخدمة الوطنية للصحة.",
+ "O que": "ما",
+ "não": "لا",
+ "nos compete": "يدخل ضمن اختصاصنا",
+ "Enquadramento legal:": "الإطار القانوني:",
+ "Despacho n.º 12876-C/2024, de 29 de outubro": "القرار (Despacho) رقم 12876-C/2024 الصادر في 29 أكتوبر",
+ "(n.º 7).": "(البند 7).",
+ "Os médicos da USF Covelo voltam ao Ribadouro para projeto de apoio à saúde do adolescente - GASA": "أطباء USF Covelo يعودون إلى ريبادورو في مشروع لدعم صحة المراهقين – GASA",
+ "Para o secretariado o poder contactar sobre este pedido.": "ليتمكن قسم الاستقبال من التواصل معك بشأن هذا الطلب."
 },
  padroes: [
   [new RegExp("^Medicamento (\\d+)$"), "الدواء $1"],

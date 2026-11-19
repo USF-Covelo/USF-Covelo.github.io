@@ -167,31 +167,35 @@ async function emailsPara(identificador) {
   return candidatos;
 }
 
-/* ---------- Aviso por e-mail (EmailJS) ---------- */
+/* ---------- Aviso por e-mail de nova conta (EmailJS) ----------
+   Usa o mesmo modelo e o mesmo formato (tabela) dos pedidos de marcação e de medicação.
+   Por proteção de dados, não inclui a morada nem o NIF. */
 async function enviarAvisoNovaConta(dados) {
   const ej = AUTH_CONFIG.emailjs;
-  if (!ej.serviceId || !ej.templateId || !ej.publicKey) {
+  const modelo = ej.templatePedidos || ej.templateId;
+  if (!ej.serviceId || !ej.publicKey || !modelo) {
     console.warn("EmailJS não configurado: aviso de nova conta não enviado.");
     return;
   }
+  const titulo = "Nova conta criada no site";
+  const data = new Date().toLocaleString("pt-PT");
+  const linhas = [
+    ["Nome", dados.nomeCompleto],
+    ["N.º de utente", dados.numeroUtente],
+    ["Telemóvel", dados.telemovel],
+    ["E-mail", dados.email],
+    ["Médico de família", dados.medicoFamilia || "Não indicado"],
+    ["Data de criação", data]
+  ];
   try {
-    await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        service_id: ej.serviceId,
-        template_id: ej.templateId,
-        user_id: ej.publicKey,
-        template_params: {
-          para: AUTH_CONFIG.emailNotificacao,
-          nome: dados.nomeCompleto,
-          email: dados.email,
-          telemovel: dados.telemovel,
-          numero_utente: dados.numeroUtente,
-          medico: dados.medicoFamilia || "Não indicado",
-          data: new Date().toLocaleString("pt-PT")
-        }
-      })
+    await enviarEmail(modelo, {
+      para: AUTH_CONFIG.emailNotificacao,
+      assunto: `${titulo} — ${dados.nomeCompleto}`,
+      tipo: titulo,
+      nome: dados.nomeCompleto, email: dados.email, telemovel: dados.telemovel,
+      numero_utente: dados.numeroUtente, medico: dados.medicoFamilia || "Não indicado", data,
+      mensagem_html: tabelaEmail(titulo, linhas),
+      mensagem: textoEmail(titulo, linhas)
     });
   } catch (e) {
     console.warn("Falha ao enviar aviso de nova conta:", e);
@@ -552,6 +556,10 @@ function atualizarCampoNome(form) {
   const temConta = !!form.dataset.nomeConta;
   const mesmoUtente = temConta && soDigitos(form.numeroUtente.value) === form.dataset.utenteConta;
   document.getElementById("campo-nome").hidden = mesmoUtente;
+  // o telemóvel da conta só é usado se existir na ficha; senão o utente escreve-o
+  const usaTelConta = mesmoUtente && !!form.dataset.telemovelConta;
+  document.getElementById("campo-telemovel").hidden = usaTelConta;
+  form.telemovel.required = !usaTelConta;
   document.getElementById("em-nome-de").hidden = !mesmoUtente;
   document.getElementById("nota-nome").hidden = !temConta || mesmoUtente;
   form.nome.required = !mesmoUtente;
@@ -568,6 +576,7 @@ async function preencherComPerfil(form) {
     // Com sessão iniciada, o nome vem da ficha; o utente só confirma o n.º de utente
     form.dataset.nomeConta = p.nomeCompleto || "";
     form.dataset.utenteConta = p.numeroUtente || "";
+    form.dataset.telemovelConta = p.telemovel || "";
     if (!form.numeroUtente.value) form.numeroUtente.value = p.numeroUtente || "";
     document.getElementById("nome-conta").textContent = p.nomeCompleto || "";
     atualizarCampoNome(form);
@@ -641,6 +650,7 @@ function paginaPedido(pagina) {
     const numeroUtente = soDigitos(form.numeroUtente.value);
     const usaConta = !!form.dataset.nomeConta && numeroUtente === form.dataset.utenteConta;
     const nome = usaConta ? form.dataset.nomeConta : form.nome.value.trim().replace(/\s+/g, " ");
+    const telemovel = usaConta && form.dataset.telemovelConta ? form.dataset.telemovelConta : normalizarTelemovel(form.telemovel.value);
     const tipoConsulta = form.tipoConsulta ? form.tipoConsulta.value : "";
     const envio = receituario ? [...form.querySelectorAll('input[name="envio"]:checked')].map(i => i.value) : [];
     const medico = form.medicoFamilia.value;
@@ -656,6 +666,7 @@ function paginaPedido(pagina) {
     let erro = "";
     if (nome.split(" ").length < 2) erro = "Indique o nome completo (nome e apelido).";
     else if (!utenteValido(numeroUtente)) erro = "O n.º de utente deve ter exatamente 9 dígitos.";
+    else if (!telemovelValido(telemovel)) erro = "Indique um número de telemóvel português válido (9 dígitos, começado por 91, 92, 93 ou 96).";
     else if (!medico) erro = "Escolha o seu médico de família (ou uma das outras opções).";
     else if (receituario && !medicamentos.length) erro = "Indique pelo menos um medicamento.";
     else if (receituario && medicamentos.some(m => !m.nome || !m.dosagem || !m.quantidade)) {
@@ -676,6 +687,7 @@ function paginaPedido(pagina) {
     const linhas = [
       ["Nome", nome],
       ["N.º de utente", numeroUtente],
+      ["Telemóvel", telemovel],
       ["Médico de família", medico]
     ];
     if (!receituario) linhas.push(["Tipo de consulta", tipoConsulta || "Não indicado"]);
@@ -689,7 +701,7 @@ function paginaPedido(pagina) {
         para: AUTH_CONFIG.emailPedidos,
         assunto: `${titulo} — ${nome}`,
         tipo: titulo,
-        nome, numero_utente: numeroUtente, medico, data,
+        nome, numero_utente: numeroUtente, telemovel, medico, data,
         tipo_consulta: tipoConsulta, envio_receitas: envio.join(", "),
         medicamentos: medicamentos.map((m, i) => `${i + 1}. ${m.nome} — ${m.dosagem} — ${m.quantidade}`).join("\n"),
         mensagem_html: tabelaEmail(titulo, linhas, medicamentos),

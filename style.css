@@ -477,3 +477,6 @@ h3,.card h3,.compromisso h3,.contacto h3,.grupo-cab h3,.noticia-corpo h3,.aviso 
 /* Área do Utente: cartões com o mesmo aspeto */
 .dois-cartoes .card h3,.compromisso h3{padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid #f1ede4}
 .compromisso-destaque{font-weight:500;font-size:1rem}
+.nao{color:#c62828}
+.base-legal{display:block;margin-top:6px;font-size:.88rem;color:var(--soft)}
+.base-legal a{font-weight:600}
