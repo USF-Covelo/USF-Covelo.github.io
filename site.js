@@ -9,6 +9,9 @@ const LINGUAS = [
   ["fr", "FR", "Français"],
   ["ar", "AR", "العربية"]
 ];
+/* Versão dos ficheiros: mude este número sempre que atualizar o site,
+   para os navegadores irem buscar os ficheiros novos (e não os antigos guardados). */
+const VERSAO = "20261119b";
 let LINGUA = "pt-PT";
 try { LINGUA = sessionStorage.getItem("lingua") || "pt-PT"; } catch (_) {}
 if (!LINGUAS.some(l => l[0] === LINGUA)) LINGUA = "pt-PT";
@@ -117,7 +120,7 @@ botaoMenu.addEventListener("click", () => {
 /* Carrega a área de conta (autenticação). Ver conta.js */
 const scriptConta = document.createElement("script");
 scriptConta.type = "module";
-scriptConta.src = "conta.js";
+scriptConta.src = "conta.js?v=" + VERSAO;
 document.body.appendChild(scriptConta);
 
 document.getElementById("rodape").innerHTML = `
@@ -188,7 +191,7 @@ if (typeof renderNoticias === "function") renderNoticias();
 (function () {
   if (LINGUA === "pt-PT") return;
   const s = document.createElement("script");
-  s.src = "lingua-" + LINGUA + ".js";
+  s.src = "lingua-" + LINGUA + ".js?v=" + VERSAO;
   s.onload = iniciarTraducao;
   document.head.appendChild(s);
 
