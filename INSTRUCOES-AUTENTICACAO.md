@@ -125,3 +125,8 @@ As traduções estão nos ficheiros `lingua-en.js`, `lingua-es.js`, `lingua-fr.j
 - **Marcação de consulta:** tem um campo opcional "Tipo de consulta", com as consultas da página inicial. No e-mail aparece "Tipo de consulta" (ou "Não indicado").
 - **Renovação de medicação crónica:** o utente tem de escolher pelo menos uma forma de receber as receitas (SMS, e-mail ou papel). No e-mail aparece "Envio das receitas".
 - O modelo do EmailJS não precisa de ser alterado: estes dados já vão dentro de `{{{mensagem_html}}}`.
+
+## 12. Área do Utente e rodapé (atualização de 19/11)
+
+- A página *Área do Utente* tem agora os **Direitos e Deveres** e **Os nossos compromissos**. Para alterar estes textos, edite `area-do-utente.html` e lembre-se de atualizar também as frases nos ficheiros `lingua-…`.
+- O **Livro de Reclamações e Elogios** está no rodapé, por baixo do Horário, com o símbolo; abre a página de reclamações da ERS (o endereço está em `site.js` → `livroReclamacoes`).
